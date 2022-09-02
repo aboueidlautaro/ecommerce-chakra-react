@@ -7,8 +7,12 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
+import "./services/config";
 
 function App() {
+  const fetchConfig = global.config.authState.url;
+  const urlFetchLogin = fetchConfig;
+
   const [authState, setAuthState] = useState({
     username: "",
     id: 0,
@@ -18,7 +22,7 @@ function App() {
   });
   useEffect(() => {
     axios
-      .get("http://localhost:3001/auth/auth", {
+      .get(urlFetchLogin, {
         headers: {
           accessToken: localStorage.getItem("accessToken"),
         },

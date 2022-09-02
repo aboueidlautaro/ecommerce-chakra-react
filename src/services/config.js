@@ -19,4 +19,7 @@ module.exports = global.config = {
   createArticle: {
     url: `${domain}articles/`,
   },
+  authState: {
+    url: `${domain}auth/auth/`,
+  },
 };
