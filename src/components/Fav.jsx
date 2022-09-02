@@ -13,7 +13,6 @@ function Fav({ id }) {
 
   const status = authState.status;
   const idArticle = id;
-  console.log(authState);
 
   const handleClick = (status, data) => {
     if (!status) {

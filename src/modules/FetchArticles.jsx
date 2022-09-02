@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import "../services/config";
 import Articles from "./Articles";
 import "../services/config";
+import { Box } from "@chakra-ui/react";
 
 function FetchArticles({ status }) {
   const fetchConfig = global.config.all_articles.url;
@@ -28,10 +29,20 @@ function FetchArticles({ status }) {
         setErrorMessage(error);
       });
   }, [urlFetchAllArticles]);
-
+  //
   return (
     <>
-      <Articles status={status} results={results} loading={loading} />
+      <Box margin="auto" w="90%" display="flex" justifyContent="center">
+        <Box
+          w="100%"
+          display="flex"
+          flexWrap="wrap"
+          justifyContent="center"
+          gap={5}
+        >
+          <Articles results={results} loading={loading} />
+        </Box>
+      </Box>
     </>
   );
 }

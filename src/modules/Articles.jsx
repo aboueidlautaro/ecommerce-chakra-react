@@ -7,47 +7,38 @@ import "../services/config";
 function Articles({ results = [], loading }) {
   return (
     <>
-      <Box
-        minH="full"
-        h="auto"
-        w="90%"
-        paddingY="20px"
-        style={{
-          columns: "5 280px",
-          margin: "auto",
-        }}
-      >
-        {results.map((result) => (
-          <Skeleton
-            startColor="blue.500"
-            borderRadius={7}
-            margin={2}
-            endColor="purple.500"
-            isLoaded={!loading}
-            key={result.id}
-          >
-            <Box
-              position="relative"
-              w="280px"
-              h="auto"
-              border="4px"
-              borderColor="#000"
-            >
-              <Link
-                _hover={{ opacity: "45%" }}
-                key={result.id}
-                id={result.id}
-                padding="10px"
+      {results.map((article) => (
+        <Box
+          color="#000"
+          key={article.id}
+          w="280px"
+          borderWidth="1px"
+          borderRadius="lg"
+          overflow="hidden"
+        >
+          <Box p="6">
+            <Box d="flex" alignItems="baseline">
+              <Box
+                fontWeight="semibold"
+                letterSpacing="wide"
+                fontSize="xs"
+                textTransform="uppercase"
+                ml="2"
               >
-                <Text as="b">{result.title}</Text>
-              </Link>
-              <Box position="absolute" top="0px" right="0px">
-                <Fav id={result.id} />
+                <Skeleton isLoaded={!loading}>
+                  <Text m={1}>{article.title}</Text>
+                </Skeleton>
+                <Skeleton isLoaded={!loading}>
+                  <Text m={1}>{article.description}</Text>
+                </Skeleton>
+                <Skeleton isLoaded={!loading}>
+                  <Fav m={1} id={article.id} />
+                </Skeleton>
               </Box>
             </Box>
-          </Skeleton>
-        ))}
-      </Box>
+          </Box>
+        </Box>
+      ))}
     </>
   );
 }

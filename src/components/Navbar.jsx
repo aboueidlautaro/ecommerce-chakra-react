@@ -5,6 +5,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "../services/config";
 
+import { Image, Box, Text, Flex } from "@chakra-ui/react";
+import { Spacer } from "@chakra-ui/react";
+
 const Navbar = () => {
   const fetchConfig = global.config.navbar.url;
   const urlFetchNavbar = fetchConfig;
@@ -29,8 +32,9 @@ const Navbar = () => {
         } else {
           setAuthState({
             username: response.data.username,
-            autor: response.data.autor,
             id: response.data.id,
+            user_role: response.data.user_role,
+            favs: response.data.favs,
             status: true,
           });
         }
@@ -44,45 +48,32 @@ const Navbar = () => {
 
   return (
     <>
-      <div>
-        <div>
-          <div>
-            {!authState.status ? (
-              <>
-                <div>
-                  <div>
-                    <NavLink to="/">Home</NavLink>
-                  </div>
-
-                  <div>
-                    <NavLink to="/login">Iniciar sesión</NavLink>
-                    <NavLink to="/register">Registrarse</NavLink>
-                  </div>
-                </div>
-              </>
-            ) : (
-              <>
-                <div>
-                  <NavLink to="/">Home</NavLink>
-                  <NavLink to="/createpost">Publicar</NavLink>
-                </div>
-              </>
-            )}
-          </div>
-
-          {authState.status ? (
-            <div>
-              <NavLink to={"/profile/" + authState.id}>
-                <span>{authState.autor}</span>
-                <small>{authState.username}</small>
-              </NavLink>
-              <button onClick={logout}>Cerrar sesión</button>
-            </div>
-          ) : (
-            <></>
-          )}
-        </div>
-      </div>
+      <header>
+        <Box
+          color="#fff"
+          w="100%"
+          display="flex"
+          flexDirection="column"
+          bg="#000"
+          alignItems="center"
+          justifyContent="center"
+          h={20}
+        >
+          <Box
+            display="flex"
+            alignItems="center"
+            w="100%"
+            h="50%"
+            justifyContent="space-between"
+          >
+            <Image src="https://i.imgur.com/1Q1ZQ2u.png" w={100} h={100} />
+            <Text>menusito</Text>
+          </Box>
+          <Box display="flex" alignItems="center" h="50%">
+            asd
+          </Box>
+        </Box>
+      </header>
     </>
   );
 };
