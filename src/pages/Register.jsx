@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import "../services/config";
 
 function Register() {
+  const fetchConfig = global.config.register.url;
+  const urlFetchLogin = fetchConfig;
   const initialValues = {
     username: "",
     password: "",
@@ -27,7 +30,7 @@ function Register() {
 
   const onSubmit = (data) => {
     axios
-      .post("http://localhost:3001/auth", data)
+      .post(urlFetchLogin, data)
       .then((response) => {
         console.log(response);
         setError("usuario creado con exito");

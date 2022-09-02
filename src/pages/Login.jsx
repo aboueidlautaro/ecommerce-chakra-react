@@ -1,8 +1,12 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../services/AuthContext";
+import "../services/config";
 
 function Login() {
+  const fetchConfig = global.config.login.url;
+  const urlFetchLogin = fetchConfig;
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [messageForm, setMessageForm] = useState("");
@@ -11,7 +15,7 @@ function Login() {
 
   const login = () => {
     const data = { username: username, password: password };
-    axios.post("http://localhost:3001/auth/login", data).then((response) => {
+    axios.post(urlFetchLogin, data).then((response) => {
       if (response.data.error) {
         setMessageForm("Contraseña incorrecta");
       } else {

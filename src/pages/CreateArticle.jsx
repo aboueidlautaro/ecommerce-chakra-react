@@ -6,6 +6,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function CreateArticle() {
+  const fetchConfig = global.config.createArticle.url;
+  const urlFetchAuth = fetchConfig;
+
   const navigate = useNavigate();
   const initialValues = {
     title: "",
@@ -25,7 +28,7 @@ function CreateArticle() {
 
   const onSubmit = (data) => {
     axios
-      .post("http://localhost:3001/articles", data, {
+      .post(urlFetchAuth, data, {
         headers: { accessToken: localStorage.getItem("accessToken") },
       })
       .then((response) => {

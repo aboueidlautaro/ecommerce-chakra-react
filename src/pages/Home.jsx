@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import CreateArticle from "./CreateArticle";
 import axios from "axios";
 import { useEffect } from "react";
-
+import "../services/config";
 import FetchArticles from "../modules/FetchArticles";
 
 function Home() {
+  const fetchConfig = global.config.auth.url;
+  const urlFetchAuth = fetchConfig;
+
   const [authState, setAuthState] = useState({
     username: "",
     user_role: "",
@@ -15,7 +18,7 @@ function Home() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/auth/auth", {
+      .get(urlFetchAuth, {
         headers: { accessToken: localStorage.getItem("accessToken") },
       })
       .then((response) => {
