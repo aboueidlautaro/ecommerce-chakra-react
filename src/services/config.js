@@ -1,8 +1,8 @@
 module.exports = global.config = {
   all_articles: {
-    url: "http://localhost:3001/articles",
+    url: "https://backend-ecommerce-chakra.herokuapp.com/articles",
   },
   article_by_id: {
-    url: "http://localhost:3001/articles/byId/",
+    url: "https://backend-ecommerce-chakra.herokuapp.com/articles/byId/",
   },
 };
