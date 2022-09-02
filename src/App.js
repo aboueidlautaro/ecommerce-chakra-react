@@ -11,7 +11,7 @@ import "./services/config";
 
 function App() {
   const fetchConfig = global.config.authState.url;
-  const urlFetchLogin = fetchConfig;
+  const urlFetchApp = fetchConfig;
 
   const [authState, setAuthState] = useState({
     username: "",
@@ -22,7 +22,7 @@ function App() {
   });
   useEffect(() => {
     axios
-      .get(urlFetchLogin, {
+      .get(urlFetchApp, {
         headers: {
           accessToken: localStorage.getItem("accessToken"),
         },

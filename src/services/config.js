@@ -22,4 +22,10 @@ module.exports = global.config = {
   authState: {
     url: `${domain}auth/auth/`,
   },
+  navbar: {
+    url: `${domain}auth/auth/`,
+  },
+  fav: {
+    url: `${domain}favs/`,
+  },
 };

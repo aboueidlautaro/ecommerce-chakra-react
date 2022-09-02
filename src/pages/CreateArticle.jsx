@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 function CreateArticle() {
   const fetchConfig = global.config.createArticle.url;
-  const urlFetchAuth = fetchConfig;
+  const urlFetchCreateArticle = fetchConfig;
 
   const navigate = useNavigate();
   const initialValues = {
@@ -28,7 +28,7 @@ function CreateArticle() {
 
   const onSubmit = (data) => {
     axios
-      .post(urlFetchAuth, data, {
+      .post(urlFetchCreateArticle, data, {
         headers: { accessToken: localStorage.getItem("accessToken") },
       })
       .then((response) => {

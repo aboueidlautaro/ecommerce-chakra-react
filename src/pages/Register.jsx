@@ -6,7 +6,7 @@ import "../services/config";
 
 function Register() {
   const fetchConfig = global.config.register.url;
-  const urlFetchLogin = fetchConfig;
+  const urlFetchRegister = fetchConfig;
   const initialValues = {
     username: "",
     password: "",
@@ -30,7 +30,7 @@ function Register() {
 
   const onSubmit = (data) => {
     axios
-      .post(urlFetchLogin, data)
+      .post(urlFetchRegister, data)
       .then((response) => {
         console.log(response);
         setError("usuario creado con exito");

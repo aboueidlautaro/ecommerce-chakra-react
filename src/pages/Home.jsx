@@ -7,7 +7,7 @@ import FetchArticles from "../modules/FetchArticles";
 
 function Home() {
   const fetchConfig = global.config.auth.url;
-  const urlFetchAuth = fetchConfig;
+  const urlFetchHome = fetchConfig;
 
   const [authState, setAuthState] = useState({
     username: "",
@@ -18,7 +18,7 @@ function Home() {
 
   useEffect(() => {
     axios
-      .get(urlFetchAuth, {
+      .get(urlFetchHome, {
         headers: { accessToken: localStorage.getItem("accessToken") },
       })
       .then((response) => {

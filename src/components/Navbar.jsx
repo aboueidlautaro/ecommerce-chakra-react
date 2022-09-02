@@ -5,6 +5,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const Navbar = () => {
+  const fetchConfig = global.config.navbar.url;
+  const urlFetchNavbar = fetchConfig;
+
   const [authState, setAuthState] = useState({
     username: "",
     autor: "",
@@ -14,7 +17,7 @@ const Navbar = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/auth/auth", {
+      .get(urlFetchNavbar, {
         headers: {
           accessToken: localStorage.getItem("accessToken"),
         },

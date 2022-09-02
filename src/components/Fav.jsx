@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../services/AuthContext";
 
 function Fav({ id }) {
+  const fetchConfig = global.config.fav.url;
+  const urlFetchFav = fetchConfig;
+
   let navigate = useNavigate();
   const { authState } = useContext(AuthContext);
 
@@ -16,7 +19,7 @@ function Fav({ id }) {
       navigate("/login");
     } else {
       axios
-        .post("http://localhost:3001/favs", data, {
+        .post(urlFetchFav, data, {
           headers: { accessToken: localStorage.getItem("accessToken") },
         })
         .then((response) => {
