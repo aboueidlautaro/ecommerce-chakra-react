@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 
 import { useState, useEffect } from "react";
 import axios from "axios";
+import "../services/config";
 
 const Navbar = () => {
   const fetchConfig = global.config.navbar.url;

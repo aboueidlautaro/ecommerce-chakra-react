@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../services/AuthContext";
+import "../services/config";
 
 function Fav({ id }) {
   const fetchConfig = global.config.fav.url;

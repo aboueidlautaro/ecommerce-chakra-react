@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import "../services/config";
 import Articles from "./Articles";
+import "../services/config";
 
 function FetchArticles({ status }) {
   const fetchConfig = global.config.all_articles.url;

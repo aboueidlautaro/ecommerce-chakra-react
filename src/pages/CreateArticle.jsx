@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import "../services/config";
 
 import { useNavigate } from "react-router-dom";
 
