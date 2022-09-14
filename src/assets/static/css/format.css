@@ -1,0 +1,15 @@
+input {
+  text-align: center;
+}
+input:focus {
+  border-bottom: 2px solid rgb(117, 117, 117);
+  outline: none;
+}
+textarea {
+  resize: none !important;
+  text-align: center;
+}
+textarea:focus {
+  border-bottom: 2px solid rgb(117, 117, 117);
+  outline: none;
+}
