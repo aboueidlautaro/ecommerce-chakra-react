@@ -1,5 +1,5 @@
 import React from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field } from "formik";
 import { Box, Flex, Text } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/button";
 
@@ -107,11 +107,12 @@ function CreateArticle() {
               <input
                 onChange={(event) => {
                   initialValues.image = event.target.files[0];
-                  console.log(event.target.files[0]);
+                  console.log(event.target.files[0].name);
                 }}
                 id="image"
                 type="file"
                 name="image"
+                multiple
               />
 
               <Text as="b" fontSize="xl">
