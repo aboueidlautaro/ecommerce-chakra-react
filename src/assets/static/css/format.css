@@ -13,3 +13,11 @@ textarea:focus {
   border-bottom: 2px solid rgb(117, 117, 117);
   outline: none;
 }
+
+.modules-container {
+  columns: repeat(3, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}

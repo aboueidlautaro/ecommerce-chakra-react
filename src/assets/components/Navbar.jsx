@@ -19,7 +19,7 @@ function Navbar() {
           <Link to="/">INICIO</Link>
           <Link to="/login">Login</Link>
           <Link to="/register">Register</Link>
-          <Link to="/createarticle">CREAR ARTÍCULO</Link>
+          <Link to="/create">MÓDULOS</Link>
         </Flex>
         <Button color="black">Boton</Button>
       </Flex>

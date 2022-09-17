@@ -10,10 +10,12 @@ import config from "../services/config";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function CreateArticle() {
   //initial values
-  const { createArticle } = config;
+  const { createArticle, allSubCategories } = config;
+
   const initialValues = {
     title: "",
     shortDescription: "",
@@ -27,27 +29,37 @@ function CreateArticle() {
   //states
   const [message, setMessage] = useState("");
   const [error, setError] = useState(true);
-
+  const [image, setImage] = useState({ preview: "", data: "" });
+  const [subCategories, setSubCategories] = useState([]);
   //functions
 
   const cancelForm = () => {
     const form = document.getElementById("form");
     form.reset();
-    navigate("/");
+    navigate("/create");
+  };
+
+  const handleFileChange = (e) => {
+    const img = {
+      preview: URL.createObjectURL(e.target.files[0]),
+      data: e.target.files[0],
+    };
+    console.log(img);
+    setImage(img);
   };
 
   const onSubmit = (data, setSend) => {
     const form = document.getElementById("form");
+    const formData = new FormData(form);
+    formData.append("image", image.data);
+    formData.append("data", data);
+
     try {
-      axios
-        .post(createArticle, data, {
-          headers: { "Content-Type": "multipart/form-data" },
-        })
-        .then((response) => {
-          setError(false);
-          setMessage("Artículo creado correctamente");
-          form.reset();
-        });
+      axios.post(createArticle, formData).then((response) => {
+        setError(false);
+        setMessage("Artículo creado correctamente");
+        form.reset();
+      });
     } catch (error) {
       setError(true);
       setMessage("Error al crear el artículo");
@@ -62,6 +74,12 @@ function CreateArticle() {
     ),
     username: Yup.string().required("El usuario es obligatorio"),
   });
+
+  useEffect(() => {
+    axios.get(allSubCategories).then((response) => {
+      setSubCategories(response.data);
+    });
+  }, []);
 
   return (
     <>
@@ -83,11 +101,13 @@ function CreateArticle() {
               </Text>
               <Field name="title" placeholder="Título del artículo" />
               <ErrorForm name="title" />
+
               <Text as="b" fontSize="xl">
                 Descripción corta:{" "}
               </Text>
               <Field name="shortDescription" placeholder="Descripción corta" />
               <ErrorForm name="shortDescription" />
+
               <Text as="b" fontSize="xl">
                 Descripción completa:{" "}
               </Text>
@@ -98,22 +118,39 @@ function CreateArticle() {
                 rows={5}
                 cols={50}
               />
-
               <ErrorForm name="description" />
 
               <Text as="b" fontSize="xl">
                 Imagen:{" "}
               </Text>
-              <input
-                onChange={(event) => {
-                  initialValues.image = event.target.files[0];
-                  console.log(event.target.files[0].name);
-                }}
+              {image.preview && (
+                <img src={image.preview} width="100" height="100" />
+              )}
+              <Field
+                onChange={handleFileChange}
                 id="image"
                 type="file"
                 name="image"
-                multiple
               />
+              <ErrorForm name="image" />
+
+              <Text as="b" fontSize="xl">
+                Subcategoría del artículo:{" "}
+              </Text>
+              <Field
+                as="select"
+                name="SubCategoryId"
+                placeholder="Subcategoría"
+              >
+                <option value="">Seleccione una subcategoría</option>
+                {subCategories.map((subcategory) => {
+                  return (
+                    <option key={subcategory.id} value={subcategory.id}>
+                      {subcategory.name}
+                    </option>
+                  );
+                })}
+              </Field>
 
               <Text as="b" fontSize="xl">
                 Usuario:{" "}
@@ -129,6 +166,7 @@ function CreateArticle() {
                   {message}
                 </Text>
               )}
+
               <Flex gap={4}>
                 <Button
                   _hover={{ bg: "gray.500" }}

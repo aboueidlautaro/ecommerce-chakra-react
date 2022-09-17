@@ -3,10 +3,11 @@ import axios from "axios";
 import config from "../services/config";
 import { Text, Box, Flex } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/button";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Image } from "@chakra-ui/react";
 
 function Home() {
-  const { allArticles } = config;
+  const { domain, allArticles } = config;
   let navigate = useNavigate();
   const [listOfArticles, setListOfArticles] = useState([]);
 
@@ -18,26 +19,16 @@ function Home() {
 
   return (
     <>
-      <div>
-        {listOfArticles.map((value) => {
-          return (
-            <Flex flexDirection={"column"} gap={10} key={value.id}>
-              <Button
-                padding={12}
-                margin={2}
-                onClick={() => {
-                  navigate(`/article/${value.id}`);
-                }}
-              >
-                <Flex gap={3} flexDirection={"column"}>
-                  <Text as="p">{value.title}</Text>
-                  <Text as="p">{value.shortDescription}</Text>
-                </Flex>
-              </Button>
-            </Flex>
-          );
-        })}
-      </div>
+      <Box>
+        <Text fontSize="4xl">Listado de artículos</Text>
+      </Box>
+      <button
+        onClick={() => {
+          navigate("/article/2");
+        }}
+      >
+        CLICK
+      </button>
     </>
   );
 }
