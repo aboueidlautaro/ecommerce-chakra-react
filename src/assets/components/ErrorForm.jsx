@@ -5,7 +5,13 @@ import React from "react";
 
 function ErrorForm(props) {
   return (
-    <Box p="0px 10px" bg="red.100" rounded="md">
+    <Box
+      color={"red.800"}
+      fontSize={"14px"}
+      p="0px 10px"
+      bg="red.100"
+      rounded="md"
+    >
       <ErrorMessage name={props.name} />
     </Box>
   );

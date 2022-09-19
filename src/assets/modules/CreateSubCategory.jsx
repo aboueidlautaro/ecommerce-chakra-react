@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, CircularProgress, Flex, Text } from "@chakra-ui/react";
 import axios from "axios";
 import * as Yup from "yup";
 import { Field, Form, Formik } from "formik";
@@ -23,6 +23,7 @@ function CreateSubCategory() {
   const [error, setError] = useState(true);
   const [message, setMessage] = useState("");
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   //functions
   const cancelForm = () => {
@@ -32,6 +33,7 @@ function CreateSubCategory() {
   };
 
   const onSubmit = (data) => {
+    setLoading(true);
     const form = document.getElementById("form");
 
     try {
@@ -39,10 +41,12 @@ function CreateSubCategory() {
         setError(false);
         setMessage("Subcategoría creada correctamente");
         form.reset();
+        setLoading(false);
       });
     } catch (error) {
       setError(true);
       setMessage("Error al crear la subcategoría");
+      setLoading(false);
     }
   };
 
@@ -126,7 +130,17 @@ function CreateSubCategory() {
                   type="submit"
                   bg="yellow.400"
                 >
-                  Confirmar
+                  {loading ? (
+                    <CircularProgress
+                      thickness="5px"
+                      isIndeterminate
+                      color="#2D3748"
+                      trackColor="transparent"
+                      size={5}
+                    />
+                  ) : (
+                    "Confirmar"
+                  )}
                 </Button>
               </Flex>
             </Flex>

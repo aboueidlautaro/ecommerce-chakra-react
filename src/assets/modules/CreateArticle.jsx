@@ -1,16 +1,16 @@
-import React from "react";
-import { Formik, Form, Field } from "formik";
-import { Box, Flex, Text } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/button";
+import { Box, Flex, Text } from "@chakra-ui/layout";
+import { Field, Form, Formik } from "formik";
+import React from "react";
 
 import * as Yup from "yup";
 import ErrorForm from "../components/ErrorForm";
 
-import config from "../services/config";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import config from "../services/config";
+import { CircularProgress } from "@chakra-ui/react";
 
 function CreateArticle() {
   //initial values
@@ -20,7 +20,7 @@ function CreateArticle() {
     title: "",
     shortDescription: "",
     description: "",
-    username: "",
+
     image: "",
   };
   //initialize navigate
@@ -31,6 +31,7 @@ function CreateArticle() {
   const [error, setError] = useState(true);
   const [image, setImage] = useState({ preview: "", data: "" });
   const [subCategories, setSubCategories] = useState([]);
+  const [loading, setLoading] = useState(false);
   //functions
 
   const cancelForm = () => {
@@ -48,21 +49,30 @@ function CreateArticle() {
     setImage(img);
   };
 
-  const onSubmit = (data, setSend) => {
+  const onSubmit = (data) => {
+    setLoading(true);
     const form = document.getElementById("form");
     const formData = new FormData(form);
     formData.append("image", image.data);
     formData.append("data", data);
-
+    console.log(formData);
     try {
-      axios.post(createArticle, formData).then((response) => {
-        setError(false);
-        setMessage("Artículo creado correctamente");
-        form.reset();
-      });
+      axios
+        .post(createArticle, formData, {
+          headers: {
+            accessToken: sessionStorage.getItem("accessToken"),
+          },
+        })
+        .then((response) => {
+          setError(false);
+          setMessage("Artículo creado correctamente");
+          form.reset();
+          setLoading(false);
+        });
     } catch (error) {
       setError(true);
       setMessage("Error al crear el artículo");
+      setLoading(false);
     }
   };
 
@@ -72,7 +82,6 @@ function CreateArticle() {
     description: Yup.string().required(
       "Introduzca una descripción más extensa"
     ),
-    username: Yup.string().required("El usuario es obligatorio"),
   });
 
   useEffect(() => {
@@ -152,11 +161,6 @@ function CreateArticle() {
                 })}
               </Field>
 
-              <Text as="b" fontSize="xl">
-                Usuario:{" "}
-              </Text>
-              <Field name="username" placeholder="Ingresa tu usuario" />
-              <ErrorForm name="username" />
               {error ? (
                 <Text as="b" rounded={2} bg="red.300">
                   {message}
@@ -180,7 +184,17 @@ function CreateArticle() {
                   type="submit"
                   bg="yellow.400"
                 >
-                  Confirmar
+                  {loading ? (
+                    <CircularProgress
+                      thickness="5px"
+                      isIndeterminate
+                      color="#2D3748"
+                      trackColor="transparent"
+                      size={5}
+                    />
+                  ) : (
+                    "Confirmar"
+                  )}
                 </Button>
               </Flex>
             </Flex>
