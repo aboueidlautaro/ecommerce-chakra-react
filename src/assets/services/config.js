@@ -1,5 +1,5 @@
 const domain =
-  "https://backend-ecommerce-chakra-jq5mmw9u0-aboueidlautaro.vercel.app";
+  "https://backend-ecommerce-chakra.vercel.app";
 
 const config = {
   domain,
