@@ -1,5 +1,4 @@
-const domain =
-  "https://backend-ecommerce-chakra.vercel.app";
+const domain = "https://backend-ecommerce-chakra.herokuapp.com/";
 
 const config = {
   domain,
