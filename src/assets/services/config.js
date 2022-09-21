@@ -1,4 +1,4 @@
-const domain = "https://backend-ecommerce-chakra.herokuapp.com";
+const domain = "https://oyster-app-te4xn.ondigitalocean.app";
 
 const config = {
   domain,
