@@ -1,34 +1,33 @@
-import React, { useEffect, useState } from "react";
+import { Center } from "@chakra-ui/react";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import SlideArticles from "../components/SlideArticles";
+import TitleHomeSliders from "../components/TitleHomeSliders";
 import config from "../services/config";
-import { Text, Box, Flex } from "@chakra-ui/layout";
-import { Button } from "@chakra-ui/button";
-import { Link, useNavigate } from "react-router-dom";
-import { Image } from "@chakra-ui/react";
 
 function Home() {
-  const { domain, allArticles } = config;
+  const { articleByTag } = config;
   let navigate = useNavigate();
-  const [listOfArticles, setListOfArticles] = useState([]);
+
+  const [listOfRelevantArticles, setListOfRelevantArticles] = useState([]);
+  const [listOfNewArticles, setListOfNewArticles] = useState([]);
 
   useEffect(() => {
-    axios.get(allArticles).then((response) => {
-      setListOfArticles(response.data);
+    axios.get(`${articleByTag}/DESTACADO`).then((relevant) => {
+      setListOfRelevantArticles(relevant.data);
+    });
+    axios.get(`${articleByTag}/NUEVO`).then((response) => {
+      setListOfNewArticles(response.data);
     });
   }, []);
 
   return (
     <>
-      <Box>
-        <Text fontSize="4xl">Listado de artículos</Text>
-      </Box>
-      <button
-        onClick={() => {
-          navigate("/article/2");
-        }}
-      >
-        CLICK
-      </button>
+      <TitleHomeSliders content="ARTÍCULOS DESTACADOS" />
+      <SlideArticles results={listOfRelevantArticles} />
+      <TitleHomeSliders content="ARTÍCULOS NUEVOS" />
+      <SlideArticles results={listOfNewArticles} />
     </>
   );
 }

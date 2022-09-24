@@ -7,7 +7,7 @@ import CardArticle from "../components/CardArticle";
 import configColorChakra from "../services/configColorChakra";
 import { Link } from "react-router-dom";
 
-function Article() {
+function Search() {
   //states
   const [article, setArticle] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
@@ -51,4 +51,4 @@ function Article() {
   );
 }
 
-export default Article;
+export default Search;

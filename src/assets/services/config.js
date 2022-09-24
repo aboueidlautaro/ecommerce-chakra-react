@@ -1,15 +1,22 @@
-const domain = "https://oyster-app-te4xn.ondigitalocean.app";
+const domain = "http://localhost:3001";
 
 const config = {
+  //domain general
   domain,
+  //user
   createUser: `${domain}/auth`,
   loginUser: `${domain}/auth/login`,
+  //article
+  createArticle: `${domain}/articles`,
   allArticles: `${domain}/articles`,
-  createArticle: `${domain}/articles/`,
-  articleById: `${domain}/articles/byId/`,
-  createCategory: `${domain}/categories/`,
+  articleByTitle: `${domain}/articles/byTitle`,
+  articleByTag: `${domain}/articles/byTag`,
+  searchArticle: `${domain}/search?search=`,
+  //category
+  createCategory: `${domain}/categories`,
   allCategories: `${domain}/categories`,
-  createSubCategory: `${domain}/subcategories/`,
+  //subcategory
+  createSubCategory: `${domain}/subcategories`,
   allSubCategories: `${domain}/subcategories`,
 };
 

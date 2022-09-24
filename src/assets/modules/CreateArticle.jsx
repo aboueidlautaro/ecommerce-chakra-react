@@ -20,7 +20,8 @@ function CreateArticle() {
     title: "",
     shortDescription: "",
     description: "",
-
+    tag: "",
+    price: "",
     image: "",
   };
   //initialize navigate
@@ -82,6 +83,12 @@ function CreateArticle() {
     description: Yup.string().required(
       "Introduzca una descripción más extensa"
     ),
+    tag: Yup.string().required("Introduzca una etiqueta"),
+    price: Yup.number()
+      .typeError("Sólo números")
+      .integer("Sólo números enteros")
+      .required("Introduzca un precio")
+      .min(1, "El precio debe ser mayor que 0"),
   });
 
   useEffect(() => {
@@ -128,6 +135,22 @@ function CreateArticle() {
                 cols={50}
               />
               <ErrorForm name="description" />
+
+              <Text as="b" fontSize="xl">
+                Etiqueta de artículo:{" "}
+              </Text>
+              <Field name="tag" placeholder="Introduzca la etiqueta" />
+              <ErrorForm name="tag" />
+
+              <Text as="b" fontSize="xl">
+                Precio:{" "}
+              </Text>
+              <Field
+                type="number"
+                name="price"
+                placeholder="Introduzca el precio"
+              />
+              <ErrorForm name="price" />
 
               <Text as="b" fontSize="xl">
                 Imagen:{" "}

@@ -1,11 +1,13 @@
-import { Box, Button, CircularProgress, Flex, Text } from "@chakra-ui/react";
-import * as Yup from "yup";
-import { Formik, Form, Field } from "formik";
-import { Link, useNavigate } from "react-router-dom";
+import { Box, CircularProgress, Flex, Text } from "@chakra-ui/react";
+import axios from "axios";
+import { Field, Form, Formik } from "formik";
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import * as Yup from "yup";
+import ButtonPrimary from "../components/ButtonPrimary";
+import ButtonSecondary from "../components/ButtonSecondary";
 import ErrorForm from "../components/ErrorForm";
 import config from "../services/config";
-import axios from "axios";
 
 function Login() {
   const { loginUser } = config;
@@ -13,8 +15,10 @@ function Login() {
   const navigate = useNavigate();
 
   // initial values
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const initialValues = {
+    username: "",
+    password: "",
+  };
 
   // functions
   const cancelForm = () => {
@@ -31,25 +35,27 @@ function Login() {
   // form submit
   const login = (data) => {
     setLoading(true);
-    data = {
-      username: username,
-      password: password,
-    };
+
     console.log("Form data", data);
-    axios
-      .post(loginUser, data)
-      .then((response) => {
-        setMessage("");
+    try {
+      axios.post(loginUser, data).then((response) => {
         setError(false);
+        setMessage("");
         sessionStorage.setItem("accessToken", response.data);
         navigate("/");
-      })
-      .catch((error) => {
-        setMessage(error.response.data.message);
-        setError(true);
-        setLoading(false);
       });
+    } catch (error) {
+      setError(true);
+      setMessage(error.response.data.message);
+      setLoading(false);
+    }
   };
+
+  // validation schema
+  const validationSchema = Yup.object().shape({
+    username: Yup.string().required("Introduzca un nombre de usuario"),
+    password: Yup.string().required("Introduzca una contraseña"),
+  });
 
   return (
     <>
@@ -86,64 +92,70 @@ function Login() {
               </Link>
             </Flex>
 
-            <input
-              onChange={(e) => {
-                setUsername(e.target.value);
-              }}
-              name="username"
-              placeholder="Usuario"
-            />
+            <Formik
+              validationSchema={validationSchema}
+              initialValues={initialValues}
+              onSubmit={login}
+            >
+              <Form id="form">
+                <Flex
+                  marginTop={"12px"}
+                  gap={4}
+                  flexDirection={"column"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                >
+                  <Field name="username" placeholder="Usuario" />
+                  <ErrorForm name="username" />
 
-            <input
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-              name="password"
-              placeholder="Contraseña"
-              type="password"
-            />
-
-            {error ? (
-              <Text as="b" rounded={2} bg="red.300">
-                {message}
-              </Text>
-            ) : (
-              <Text p="0px 10px" as="b" rounded={2} bg="green.300">
-                {message}
-              </Text>
-            )}
-
-            <Flex gap={4}>
-              <Button
-                _hover={{ bg: "gray.500" }}
-                onClick={cancelForm}
-                bg="gray.400"
-              >
-                Volver
-              </Button>
-              <Button
-                _hover={{ bg: "yellow.500" }}
-                onClick={login}
-                bg="yellow.400"
-              >
-                {loading ? (
-                  <CircularProgress
-                    thickness="5px"
-                    isIndeterminate
-                    color="#2D3748"
-                    trackColor="transparent"
-                    size={5}
+                  <Field
+                    type="password"
+                    name="password"
+                    placeholder="Contraseña"
                   />
+                  <ErrorForm name="password" />
+                </Flex>
+
+                {error ? (
+                  <Text as="b" rounded={2} bg="red.300">
+                    {message}
+                  </Text>
                 ) : (
-                  "Iniciar sesión"
+                  <Text p="0px 10px" as="b" rounded={2} bg="green.300">
+                    {message}
+                  </Text>
                 )}
-              </Button>
-            </Flex>
+
+                <Flex
+                  justifyContent={"space-evenly"}
+                  marginTop={"22px"}
+                  gap={4}
+                >
+                  <ButtonSecondary onClick={cancelForm} content="Volver" />
+
+                  <ButtonPrimary
+                    type="submit"
+                    content={
+                      loading ? (
+                        <CircularProgress
+                          thickness="5px"
+                          isIndeterminate
+                          color="#2D3748"
+                          trackColor="transparent"
+                          size={5}
+                        />
+                      ) : (
+                        "Iniciar sesión"
+                      )
+                    }
+                  />
+                </Flex>
+              </Form>
+            </Formik>
           </Box>
         </Flex>
       </Box>
     </>
   );
 }
-
 export default Login;

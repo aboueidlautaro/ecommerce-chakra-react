@@ -22,7 +22,7 @@ function AppRoutes() {
         <Route path="/createarticle" element={<CreateArticle />} />
         <Route path="/createcategory" element={<CreateCategory />} />
         <Route path="/createsubcategory" element={<CreateSubCategory />} />
-        <Route path="/article/:id" element={<Article />} />
+        <Route path="/article/:title" element={<Article />} />
       </Routes>
     </Router>
   );

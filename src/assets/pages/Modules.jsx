@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBox } from "@fortawesome/free-solid-svg-icons";
 import { faTable } from "@fortawesome/free-solid-svg-icons";
 import { faTableColumns } from "@fortawesome/free-solid-svg-icons";
+import { faClipboardUser } from "@fortawesome/free-solid-svg-icons";
 
 function Modules() {
   return (
@@ -30,6 +31,11 @@ function Modules() {
             name="Crear subcategoría"
             icon={<FontAwesomeIcon icon={faTable} />}
             to="/createsubcategory"
+          />
+          <ButtonModules
+            name="Crear miembros"
+            icon={<FontAwesomeIcon icon={faClipboardUser} />}
+            to="/createstaff"
           />
         </Box>
       </Box>
