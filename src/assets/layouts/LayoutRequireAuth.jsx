@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 
-const LayoutRequireAuth = ({ authState, children }) => {
+const LayoutRequireAuth = (authState, { children }) => {
   if (!authState.status) {
     return <Navigate to="/login" replace />;
   }
