@@ -209,7 +209,7 @@ function Navbar() {
                 <MenuList border={`2px solid ${primary}`} textAlign={"center"}>
                   <MenuGroup
                     justifyContent="center"
-                    title={`Hola! ${authState?.name}`}
+                    title={`Hola! ${authState.name}`}
                   >
                     <ItemMenuProfile
                       icon={<FaUser />}
@@ -221,7 +221,7 @@ function Navbar() {
                       content="Favoritos"
                       to="/favorites"
                     />
-                    {authState?.user_role === "admin" ? (
+                    {authState.user_role === "admin" ? (
                       <ItemMenuProfile
                         icon={<BsFillShieldLockFill />}
                         content="Módulos creación"

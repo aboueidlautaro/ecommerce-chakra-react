@@ -41,7 +41,7 @@ function AppRoutes() {
         <Route
           path="/create"
           element={
-            <LayoutRequireAuth authState={authState.status}>
+            <LayoutRequireAuth authState={authState?.status}>
               <Modules />
             </LayoutRequireAuth>
           }
@@ -49,7 +49,7 @@ function AppRoutes() {
         <Route
           path="createarticle"
           element={
-            <LayoutRequireAuth authState={authState.status}>
+            <LayoutRequireAuth authState={authState?.status}>
               <CreateArticle />
             </LayoutRequireAuth>
           }
@@ -57,7 +57,7 @@ function AppRoutes() {
         <Route
           path="createcategory"
           element={
-            <LayoutRequireAuth authState={authState.status}>
+            <LayoutRequireAuth authState={authState?.status}>
               <CreateCategory />
             </LayoutRequireAuth>
           }
