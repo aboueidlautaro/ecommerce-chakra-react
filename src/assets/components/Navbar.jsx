@@ -67,19 +67,44 @@ function Navbar() {
   };
 
   return (
-    <Center h={20} bg={primary} w="full">
+    <Center
+      h={{
+        base: "auto",
+        md: "20",
+      }}
+      bg={primary}
+      w="full"
+    >
       <Flex
+        padding={{
+          base: "10px",
+          md: "0px",
+        }}
         h="full"
         color={secondary}
         w="90%"
         justify="space-between"
         align="center"
         px={10}
+        flexDirection={{
+          base: "column",
+          md: "row",
+        }}
       >
-        <Center w={"15%"}>
+        <Center
+          w={{
+            base: "100%",
+            md: "15%",
+          }}
+        >
           <span>LOGO</span>
         </Center>
-        <Center w={"45%"}>
+        <Center
+          w={{
+            base: "100%",
+            md: "45%",
+          }}
+        >
           <InputGroup>
             <Input
               color={secondaryHover}
@@ -103,12 +128,25 @@ function Navbar() {
         </Center>
         <Center
           display={{
-            base: "none",
+            base: "flex",
             md: "flex",
           }}
-          w={"40%"}
+          w={{
+            base: "100%",
+            md: "40%",
+          }}
+          paddingTop={{
+            base: "10px",
+            md: "0px",
+          }}
           fontWeight={"semibold"}
           gap={3}
+          alignItems="center"
+          flexDirection={{
+            base: "row",
+            md: "row",
+          }}
+          justifyContent="center"
         >
           <BuyCartDrawer
             isOpen={isOpen}

@@ -1,4 +1,4 @@
-const domain = "http://localhost:3001";
+const domain = "https://backend-ecommerce-chakra.vercel.app";
 
 const config = {
   //domain general
