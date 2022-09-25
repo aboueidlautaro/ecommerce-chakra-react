@@ -2,7 +2,11 @@ import React, { useContext } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { AuthContext } from "../contexts/AuthContext";
+<<<<<<< HEAD
 
+=======
+import LayoutRequireAuth from "../layouts/layoutRequireAuth";
+>>>>>>> parent of 7f01a62 (updt)
 import CreateArticle from "../modules/CreateArticle";
 import CreateCategory from "../modules/CreateCategory";
 import CreateStaff from "../modules/CreateStaff";
