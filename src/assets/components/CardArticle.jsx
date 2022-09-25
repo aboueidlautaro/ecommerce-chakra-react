@@ -53,11 +53,19 @@ function CardArticle(props) {
         >
           {props.tag}
         </Badge>
-        <Text letterSpacing={"0.12px"} fontWeight={500} marginTop={3} as="h2">
+        <Text
+          paddingX={3}
+          noOfLines={1}
+          textAlign={"center"}
+          letterSpacing={"0.12px"}
+          fontWeight={600}
+          marginTop={3}
+          as="h2"
+        >
           {props.title}
         </Text>
         <Text
-          fontWeight={900}
+          fontWeight={800}
           letterSpacing={"0.24px"}
           lineHeight={0.8}
           fontSize={25}

@@ -8,8 +8,14 @@ import ButtonPrimary from "../components/ButtonPrimary";
 import ButtonSecondary from "../components/ButtonSecondary";
 import ErrorForm from "../components/ErrorForm";
 import config from "../services/config";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
 
 function Login() {
+  // authState context
+  const { setAuthState } = useContext(AuthContext);
+
+  // config global
   const { loginUser } = config;
   //initialize navigate
   const navigate = useNavigate();
@@ -36,12 +42,18 @@ function Login() {
   const login = (data) => {
     setLoading(true);
 
-    console.log("Form data", data);
     try {
       axios.post(loginUser, data).then((response) => {
         setError(false);
         setMessage("");
-        sessionStorage.setItem("accessToken", response.data);
+        localStorage.setItem("accessToken", response.data.token);
+        setAuthState({
+          username: response.data.username,
+          name: response.data.name,
+          id: response.data.id,
+          user_role: response.data.user_role,
+          status: true,
+        });
         navigate("/");
       });
     } catch (error) {
@@ -87,7 +99,7 @@ function Login() {
               <Text textAlign={"center"} fontSize={"sm"}>
                 Para iniciar sesión ingrese sus datos
               </Text>
-              <Link className="link-user" to="/login">
+              <Link className="link-user" to="/register">
                 No tengo cuenta
               </Link>
             </Flex>

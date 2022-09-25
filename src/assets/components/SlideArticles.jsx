@@ -62,8 +62,12 @@ function SlideArticles(results = []) {
           pagination={{
             clickable: true,
           }}
+          centeredSlidesBounds={true}
+          centeredSlides={true}
+          watchOverflow={true}
           direction={"horizontal"}
           spaceBetween={10}
+          centerInsufficientSlides={true}
           slidesPerView={1}
           breakpoints={{
             0: {

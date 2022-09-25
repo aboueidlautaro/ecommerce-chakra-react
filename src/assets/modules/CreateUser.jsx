@@ -71,7 +71,7 @@ function CreateUser() {
   // form submit
   const onSubmit = (data) => {
     setLoading(true);
-    console.log("Form data", data);
+
     axios
       .post(createUser, data)
       .then((response) => {

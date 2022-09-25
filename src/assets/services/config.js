@@ -5,6 +5,7 @@ const config = {
   domain,
   //user
   createUser: `${domain}/auth`,
+  checkToken: `${domain}/auth/validate`,
   loginUser: `${domain}/auth/login`,
   //article
   createArticle: `${domain}/articles`,

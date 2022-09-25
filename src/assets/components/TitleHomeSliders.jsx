@@ -3,7 +3,7 @@ import React from "react";
 
 function TitleHomeSliders(props) {
   return (
-    <Center marginTop={10} fontSize={24} fontWeight={300}>
+    <Center marginTop={10} fontSize={24} fontWeight={400}>
       {props.content}
     </Center>
   );

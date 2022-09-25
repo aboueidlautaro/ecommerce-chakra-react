@@ -46,7 +46,7 @@ function CreateArticle() {
       preview: URL.createObjectURL(e.target.files[0]),
       data: e.target.files[0],
     };
-    console.log(img);
+
     setImage(img);
   };
 
@@ -56,12 +56,12 @@ function CreateArticle() {
     const formData = new FormData(form);
     formData.append("image", image.data);
     formData.append("data", data);
-    console.log(formData);
+
     try {
       axios
         .post(createArticle, formData, {
           headers: {
-            accessToken: sessionStorage.getItem("accessToken"),
+            accessToken: localStorage.getItem("accessToken"),
           },
         })
         .then((response) => {
