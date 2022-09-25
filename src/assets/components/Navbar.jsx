@@ -59,8 +59,8 @@ function Navbar() {
 
   //function for limit cant of characters in string and add ... at the end maximum 12 characters
   const limitCharacters = (string) => {
-    if (string.length > 12) {
-      return string.substring(0, 12) + "...";
+    if (string?.length > 12) {
+      return string?.substring(0, 12) + "...";
     } else {
       return string;
     }
@@ -188,9 +188,9 @@ function Navbar() {
                       flexDirection={"column"}
                       lineHeight={1}
                     >
-                      <Text>{limitCharacters(authState.name)}</Text>
+                      <Text>{limitCharacters(authState?.name)}</Text>
                       <Text fontSize={14} fontWeight={400}>
-                        {authState.username}
+                        {authState?.username}
                       </Text>
                     </Flex>
 
@@ -209,7 +209,7 @@ function Navbar() {
                 <MenuList border={`2px solid ${primary}`} textAlign={"center"}>
                   <MenuGroup
                     justifyContent="center"
-                    title={`Hola! ${authState.name}`}
+                    title={`Hola! ${authState?.name}`}
                   >
                     <ItemMenuProfile
                       icon={<FaUser />}

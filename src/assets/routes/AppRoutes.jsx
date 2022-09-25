@@ -7,7 +7,7 @@ import CreateArticle from "../modules/CreateArticle";
 import CreateCategory from "../modules/CreateCategory";
 import CreateStaff from "../modules/CreateStaff";
 import CreateSubCategory from "../modules/CreateSubCategory";
-import LayoutRequireAuth from "../modules/LayoutRequireAuth";
+import LayoutRequireAuth from "../layouts/LayoutRequireAuth";
 import Article from "../pages/Article";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
