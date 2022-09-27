@@ -1,4 +1,4 @@
-import { Box, Skeleton } from "@chakra-ui/react";
+import { Box, Skeleton, Text } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -9,7 +9,10 @@ import configColorChakra from "../services/configColorChakra";
 function Search() {
   //states
   const [articles, setArticles] = useState([]);
+  const [articlesError, setArticlesError] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
+  const [error, setError] = useState(false);
+  const [message, setMessage] = useState("");
 
   // config global
   const { background } = configColorChakra;
@@ -24,21 +27,25 @@ function Search() {
   //useEffect
   useEffect(() => {
     axios.get(`${searchArticle}${q}`).then((response) => {
-      if (response.status === 200) {
-        setArticles(response.data);
-        setTimeout(() => {
-          setIsLoaded(true);
-        }, 500);
+      if (response.data.articles?.length > 0) {
+        setArticles(response.data.articles);
+        setIsLoaded(true);
+        setError(false);
+        setMessage("");
       } else {
-        null;
+        setMessage("No se encontraron articulos relacionados a su búsqueda");
+        setError(true);
+        setArticles([]);
+        setIsLoaded(true);
       }
     });
   }, [q]);
 
   return (
     <>
+      <Text>{error ? message : null}</Text>
       <Box>
-        {articles == "" ? (
+        {articles.error === true ? (
           <h1>No hay artículos para su búsqueda</h1>
         ) : (
           <Box bg={background}>

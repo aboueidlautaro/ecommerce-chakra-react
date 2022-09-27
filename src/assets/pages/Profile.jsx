@@ -10,6 +10,7 @@ import {
   Fade,
   Flex,
   Image,
+  Skeleton,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -90,17 +91,45 @@ function Profile() {
               width="200px"
               height="200px"
             >
-              <Image
-                boxShadow={"0px 5px 15px -3px rgba(0,0,0,0.65)"}
-                objectFit="cover"
+              <Skeleton
+                h="200px"
+                w="200px"
                 borderRadius={10}
-                w="100%"
-                h="100%"
-                src={`${domain}/uploads/${user.Image}`}
-              />
-              <Text as="span" fontSize={20} fontWeight={600}>
-                {user.name}
-              </Text>
+                isLoaded={!loading}
+              >
+                <Image
+                  objectFit="cover"
+                  borderRadius={10}
+                  w="100%"
+                  h="100%"
+                  src={`${domain}/uploads/${user.Image}`}
+                />
+              </Skeleton>
+              <Skeleton
+                marginTop={4}
+                h={6}
+                borderRadius={15}
+                isLoaded={!loading}
+              >
+                <Text
+                  as="span"
+                  color={"blackAlpha.700"}
+                  fontSize={20}
+                  fontWeight={800}
+                >
+                  {user.name}
+                </Text>
+              </Skeleton>
+              <Skeleton borderRadius={15} isLoaded={!loading}>
+                <Text
+                  as="span"
+                  color={"blackAlpha.700"}
+                  fontSize={14}
+                  fontWeight={500}
+                >
+                  @{user.username}
+                </Text>
+              </Skeleton>
             </Box>
           </Flex>
           <Flex
@@ -119,7 +148,7 @@ function Profile() {
               h="auto"
               borderRadius="8px"
               w="100%"
-              boxShadow=" 0px 3px 15px -3px rgba(0,0,0,0.45)"
+              boxShadow=" 0px 3px 15px -3px rgba(0,0,0,0.15)"
             >
               <Flex justifyContent={"space-between"}>
                 <Text as="h3" fontWeight={800} opacity="0.6" fontSize="22px">
@@ -134,18 +163,21 @@ function Profile() {
                 stateInfo={user}
                 info={user.name}
                 title="Nombre"
+                isLoaded={!loading}
               />
 
               <InfoCardProfile
                 stateInfo={user}
                 info={user.name}
                 title="Email"
+                isLoaded={!loading}
               />
 
               <InfoCardProfile
                 stateInfo={user}
                 info={user.name}
                 title="Teléfono"
+                isLoaded={!loading}
               />
 
               <Collapse in={accountInfo} animateOpacity>
@@ -153,6 +185,7 @@ function Profile() {
                   stateInfo={user}
                   info={user.name}
                   title="Contraseña"
+                  isLoaded={!loading}
                 />
               </Collapse>
             </Box>
@@ -164,7 +197,7 @@ function Profile() {
               h="auto"
               borderRadius="8px"
               w="100%"
-              boxShadow=" 0px 3px 15px -3px rgba(0,0,0,0.45)"
+              boxShadow=" 0px 3px 15px -3px rgba(0,0,0,0.15)"
             >
               <Flex justifyContent={"space-between"}>
                 <Text as="h3" fontWeight={800} opacity="0.6" fontSize="22px">
@@ -179,18 +212,21 @@ function Profile() {
                 stateInfo={user}
                 info={user.name}
                 title="Nombre"
+                isLoaded={!loading}
               />
 
               <InfoCardProfile
                 stateInfo={user}
                 info={user.name}
                 title="Email"
+                isLoaded={!loading}
               />
 
               <InfoCardProfile
                 stateInfo={user}
                 info={user.name}
                 title="Teléfono"
+                isLoaded={!loading}
               />
 
               <Collapse in={addressInfo} animateOpacity>
@@ -198,6 +234,7 @@ function Profile() {
                   stateInfo={user}
                   info={user.name}
                   title="Contraseña"
+                  isLoaded={!loading}
                 />
               </Collapse>
             </Box>
@@ -209,7 +246,7 @@ function Profile() {
               h="auto"
               borderRadius="8px"
               w="100%"
-              boxShadow=" 0px 3px 15px -3px rgba(0,0,0,0.45)"
+              boxShadow=" 0px 3px 15px -3px rgba(0,0,0,0.15)"
             >
               <Flex justifyContent={"space-between"}>
                 <Text as="h3" fontWeight={800} opacity="0.6" fontSize="22px">
@@ -224,18 +261,21 @@ function Profile() {
                 stateInfo={user}
                 info={user.name}
                 title="Nombre"
+                isLoaded={!loading}
               />
 
               <InfoCardProfile
                 stateInfo={user}
                 info={user.name}
                 title="Email"
+                isLoaded={!loading}
               />
 
               <InfoCardProfile
                 stateInfo={user}
                 info={user.name}
                 title="Teléfono"
+                isLoaded={!loading}
               />
 
               <Collapse in={ordersInfo} animateOpacity>
@@ -243,6 +283,7 @@ function Profile() {
                   stateInfo={user}
                   info={user.name}
                   title="Contraseña"
+                  isLoaded={!loading}
                 />
               </Collapse>
             </Box>
