@@ -1,53 +1,69 @@
+import { Box, Skeleton } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
-import config from "../services/config";
-import { Box, Button, Flex, Image, Skeleton, Text } from "@chakra-ui/react";
+import { useSearchParams } from "react-router-dom";
 import CardArticle from "../components/CardArticle";
+import config from "../services/config";
 import configColorChakra from "../services/configColorChakra";
-import { Link } from "react-router-dom";
 
 function Search() {
   //states
-  const [article, setArticle] = useState({});
+  const [articles, setArticles] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
   // config global
   const { background } = configColorChakra;
-  const { articleByTitle, domain } = config;
+  const { searchArticle, domain } = config;
 
-  //params
-  const { title } = useParams();
+  // params
+  const [searchParams, setSearchParams] = useSearchParams();
+  const q = searchParams.get("q");
 
-  //functions
+  // functions
 
   //useEffect
   useEffect(() => {
-    axios.get(articleByTitle + title).then((response) => {
+    axios.get(`${searchArticle}${q}`).then((response) => {
       if (response.status === 200) {
-        setArticle(response.data);
+        setArticles(response.data);
         setTimeout(() => {
           setIsLoaded(true);
         }, 500);
       } else {
         null;
       }
-
-      setArticle(response.data);
     });
-  }, []);
+  }, [q]);
 
   return (
-    <Box bg={background}>
-      <Skeleton fadeDuration={1} borderRadius={6} w={255} isLoaded={isLoaded}>
-        <CardArticle
-          title={article.title}
-          tag={article.tag}
-          price={article.price}
-          src={`${domain}/uploads/${article.image}`}
-        />
-      </Skeleton>
-    </Box>
+    <>
+      <Box>
+        {articles == "" ? (
+          <h1>No hay artículos para su búsqueda</h1>
+        ) : (
+          <Box bg={background}>
+            {articles.map((article) => {
+              return (
+                <Skeleton
+                  key={article.id}
+                  fadeDuration={1}
+                  borderRadius={6}
+                  w={255}
+                  isLoaded={isLoaded}
+                >
+                  <CardArticle
+                    title={article.title}
+                    tag={article.tag}
+                    price={article.price}
+                    src={`${domain}/uploads/${article.image}`}
+                  />
+                </Skeleton>
+              );
+            })}
+          </Box>
+        )}
+      </Box>
+    </>
   );
 }
 

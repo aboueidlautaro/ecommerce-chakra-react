@@ -7,12 +7,14 @@ const config = {
   createUser: `${domain}/auth`,
   checkToken: `${domain}/auth/validate`,
   loginUser: `${domain}/auth/login`,
+  getUserInfo: `${domain}/auth/info`,
   //article
   createArticle: `${domain}/articles`,
   allArticles: `${domain}/articles`,
   articleByTitle: `${domain}/articles/byTitle`,
   articleByTag: `${domain}/articles/byTag`,
-  searchArticle: `${domain}/search?search=`,
+  searchArticle: `${domain}/articles/search?q=`,
+  searchIdx: "/articles/search?q=",
   //category
   createCategory: `${domain}/categories`,
   allCategories: `${domain}/categories`,

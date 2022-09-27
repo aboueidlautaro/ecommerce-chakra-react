@@ -20,35 +20,31 @@ function App() {
 
   // config global
   const { checkToken } = config;
+  const loggedUser = localStorage.getItem("accessToken");
 
   useEffect(() => {
     axios
-      .get(checkToken, {
-        headers: {
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      })
+      .get(checkToken, { headers: { accessToken: loggedUser } })
       .then((response) => {
         if (response.data.error) {
-          setAuthState({
-            ...authState,
-            status: false,
-          });
+          setAuthState({ ...authState, status: false });
         } else {
           setAuthState({
             username: response.data.username,
             name: response.data.name,
             id: response.data.id,
-            status: true,
             user_role: response.data.user_role,
+            status: true,
           });
         }
       });
-  }, []);
+  }, [loggedUser]);
 
   return (
     <AuthContext.Provider value={{ authState, setAuthState }}>
-      <AppRoutes />
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
     </AuthContext.Provider>
   );
 }

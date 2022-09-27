@@ -12,10 +12,10 @@ import {
   MenuList,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { IoSearchSharp } from "react-icons/io5";
 import { MdOutlineShoppingCart } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import configColorChakra from "../services/configColorChakra";
 
 import { AuthContext } from "../contexts/AuthContext";
@@ -28,21 +28,35 @@ import ItemMenuProfile from "./ItemMenuProfile";
 import config from "../services/config";
 
 function Navbar() {
+  //navigate
+  const navigate = useNavigate();
+
   // authState context
   const { authState, setAuthState } = useContext(AuthContext);
 
-  // states disclosure for drawer
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { image, name, username, user_role } = authState;
 
-  // btn ref
+  // states
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [search, setSearch] = useState("");
+
+  // keys ref
+  const handleKeyUp = (e) => {
+    if (e.keyCode === "Enter") {
+      ref.current.submit();
+    }
+  };
+
+  // ref
   const btnRef = useRef();
+  const ref = useRef();
 
   // global config colors chakra
   const { primary, secondary, primaryLight, primaryDark, secondaryHover } =
     configColorChakra;
 
   // global config
-  const { domain } = config;
+  const { searchIdx, domain } = config;
 
   // functions
   const logout = () => {
@@ -57,6 +71,20 @@ function Navbar() {
     window.location.reload();
   };
 
+  //params
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  //functions
+
+  // create function for search by query param and navigate to search page with query param
+  const searchByQuery = (e) => {
+    e.preventDefault();
+    setSearchParams({ q: search });
+    navigate("/articles/search?q=" + search);
+    ref.current.reset();
+  };
+
   //function for limit cant of characters in string and add ... at the end maximum 12 characters
   const limitCharacters = (string) => {
     if (string?.length > 12) {
@@ -69,13 +97,14 @@ function Navbar() {
   return (
     <Center
       h={{
-        base: "auto",
-        md: "20",
+        base: "18vh",
+        md: "9vh",
       }}
       bg={primary}
       w="full"
     >
       <Flex
+        zIndex={1000}
         padding={{
           base: "10px",
           md: "0px",
@@ -97,7 +126,7 @@ function Navbar() {
             md: "15%",
           }}
         >
-          <span>LOGO</span>
+          <Link to="/">LOGO</Link>
         </Center>
         <Center
           w={{
@@ -105,26 +134,36 @@ function Navbar() {
             md: "45%",
           }}
         >
-          <InputGroup>
-            <Input
-              color={secondaryHover}
-              border={"none"}
-              _focus={{
-                ring: "none",
-                outline: "none",
-                borderColor: primaryDark,
-              }}
-              textAlign="left"
-              _placeholder={{
-                fontWeight: "semibold",
-                color: primaryDark,
-                paddingLeft: "10px",
-              }}
-              bg={primaryLight}
-              placeholder="Buscar artículo"
-            />
-            <InputRightElement children={<IoSearchSharp />} />
-          </InputGroup>
+          <form
+            id="form"
+            ref={ref}
+            onSubmit={searchByQuery}
+            onKeyUp={handleKeyUp}
+            onChange={(e) => setSearch(e.target.value)}
+            tabIndex={0}
+          >
+            <InputGroup>
+              <Input
+                color={secondaryHover}
+                border={"none"}
+                _focus={{
+                  ring: "none",
+                  outline: "none",
+                  borderColor: primaryDark,
+                }}
+                textAlign="left"
+                _placeholder={{
+                  fontWeight: "semibold",
+                  color: primaryDark,
+                  paddingLeft: "10px",
+                }}
+                bg={primaryLight}
+                placeholder="Buscar artículo"
+              />
+
+              <InputRightElement children={<IoSearchSharp />} />
+            </InputGroup>
+          </form>
         </Center>
         <Center
           display={{
@@ -200,7 +239,7 @@ function Navbar() {
                       h={45}
                       borderRadius={10}
                       objectPosition="center"
-                      src={`${domain}/uploads/default.png`}
+                      src={`${domain}/uploads/default.svg`}
                       alt="avatar"
                     />
                     <IoIosArrowDown />
@@ -214,7 +253,7 @@ function Navbar() {
                     <ItemMenuProfile
                       icon={<FaUser />}
                       content="Mi perfil"
-                      to="/profile"
+                      to={`/user/profile/${authState?.username}`}
                     />
                     <ItemMenuProfile
                       icon={<BsFillHeartFill />}

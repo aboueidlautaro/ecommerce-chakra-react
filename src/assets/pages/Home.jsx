@@ -22,6 +22,10 @@ function Home() {
     });
   }, []);
 
+  if (!listOfRelevantArticles || !listOfNewArticles) {
+    return null;
+  }
+
   return (
     <>
       <TitleHomeSliders content="ARTÍCULOS DESTACADOS" />

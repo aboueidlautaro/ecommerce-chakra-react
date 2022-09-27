@@ -28,8 +28,6 @@ function Login() {
 
   // functions
   const cancelForm = () => {
-    const form = document.getElementById("form");
-    form.reset();
     navigate("/");
   };
 
@@ -58,7 +56,7 @@ function Login() {
       });
     } catch (error) {
       setError(true);
-      setMessage(error.response.data.message);
+      setMessage("Usuario o contraseña incorrectos");
       setLoading(false);
     }
   };

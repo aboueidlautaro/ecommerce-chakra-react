@@ -20,22 +20,22 @@ function Modules() {
           <ButtonModules
             name="Crear artículo"
             icon={<FontAwesomeIcon icon={faBox} />}
-            to="/createarticle"
+            to="/create/article"
           />
           <ButtonModules
             name="Crear categoría"
             icon={<FontAwesomeIcon icon={faTableColumns} />}
-            to="/createcategory"
+            to="/create/category"
           />
           <ButtonModules
             name="Crear subcategoría"
             icon={<FontAwesomeIcon icon={faTable} />}
-            to="/createsubcategory"
+            to="/create/subcategory"
           />
           <ButtonModules
             name="Crear miembros"
             icon={<FontAwesomeIcon icon={faClipboardUser} />}
-            to="/createstaff"
+            to="/create/staff"
           />
         </Box>
       </Box>

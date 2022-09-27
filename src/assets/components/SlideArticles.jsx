@@ -43,7 +43,14 @@ function SlideArticles(results = []) {
       w={"90%"}
     >
       <ButtonSwiper content={<IoIosArrowBack />} onClick={handleLeftClick} />
-      <Box borderRadius={8} boxShadow={"2xl"} w={"90%"} h={406} bg={"white"}>
+      <Box
+        borderRadius={8}
+        boxShadow={"2xl"}
+        w={"90%"}
+        h={406}
+        bg={"white"}
+        zIndex={1}
+      >
         <Swiper
           modules={[
             Navigation,
