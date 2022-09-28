@@ -75,7 +75,7 @@ function Navbar() {
 
   //params
 
-  const [setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   //functions
 

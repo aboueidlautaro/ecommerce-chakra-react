@@ -49,13 +49,13 @@ function CreateArticle() {
 
     setImage(img);
   };
-  console.log(image.data);
+
   const onSubmit = (data) => {
     setLoading(true);
     const form = document.getElementById("form");
     const formData = new FormData(form);
     formData.append("image", image.data);
-    formData.append("data", data);
+    formData.append("data", JSON.stringify(data));
 
     try {
       axios
