@@ -23,7 +23,7 @@ function AppRoutes() {
       <Navbar />
 
       <Routes>
-        // public routes
+        {/* public routes*/}
         <Route path="/" index element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

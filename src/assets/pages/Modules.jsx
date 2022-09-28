@@ -1,11 +1,13 @@
-import React from "react";
-import { Box, Flex, Link, Text } from "@chakra-ui/react";
-import ButtonModules from "../components/ButtonModules";
+import { Box, Text } from "@chakra-ui/react";
+import {
+  faBox,
+  faClipboardUser,
+  faTable,
+  faTableColumns,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBox } from "@fortawesome/free-solid-svg-icons";
-import { faTable } from "@fortawesome/free-solid-svg-icons";
-import { faTableColumns } from "@fortawesome/free-solid-svg-icons";
-import { faClipboardUser } from "@fortawesome/free-solid-svg-icons";
+import React from "react";
+import ButtonModules from "../components/ButtonModules";
 
 function Modules() {
   return (

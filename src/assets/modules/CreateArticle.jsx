@@ -49,7 +49,7 @@ function CreateArticle() {
 
     setImage(img);
   };
-
+  console.log(image.data);
   const onSubmit = (data) => {
     setLoading(true);
     const form = document.getElementById("form");

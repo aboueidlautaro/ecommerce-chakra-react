@@ -7,9 +7,8 @@ import {
   DrawerHeader,
   DrawerOverlay,
   Input,
-  useDisclosure,
 } from "@chakra-ui/react";
-import React, { useRef } from "react";
+import React from "react";
 import ButtonPrimary from "./ButtonPrimary";
 import ButtonSecondary from "./ButtonSecondary";
 

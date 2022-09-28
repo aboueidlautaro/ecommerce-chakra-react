@@ -12,7 +12,7 @@ import {
   MenuList,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useContext, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { IoSearchSharp } from "react-icons/io5";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
@@ -24,8 +24,10 @@ import BuyCartDrawer from "./BuyCartDrawer";
 import { BsFillHeartFill, BsFillShieldLockFill } from "react-icons/bs";
 import { FaUser } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
-import ItemMenuProfile from "./ItemMenuProfile";
 import config from "../services/config";
+import ItemMenuProfile from "./ItemMenuProfile";
+import { useEffect } from "react";
+import axios from "axios";
 
 function Navbar() {
   //navigate
@@ -34,11 +36,11 @@ function Navbar() {
   // authState context
   const { authState, setAuthState } = useContext(AuthContext);
 
-  const { image, name, username, user_role } = authState;
-
   // states
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [search, setSearch] = useState("");
+  const token = localStorage.getItem("accessToken");
+  const [image, setImage] = useState("");
 
   // keys ref
   const handleKeyUp = (e) => {
@@ -56,7 +58,7 @@ function Navbar() {
     configColorChakra;
 
   // global config
-  const { searchIdx, domain } = config;
+  const { getProfilePicture, domain } = config;
 
   // functions
   const logout = () => {
@@ -73,7 +75,7 @@ function Navbar() {
 
   //params
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [setSearchParams] = useSearchParams();
 
   //functions
 
@@ -81,8 +83,13 @@ function Navbar() {
   const searchByQuery = (e) => {
     e.preventDefault();
     setSearchParams({ q: search });
-    navigate("/articles/search?q=" + search);
+
     ref.current.reset();
+    if (search === "") {
+      navigate("/articles");
+    } else {
+      navigate("/articles/search?q=" + search);
+    }
   };
 
   //function for limit cant of characters in string and add ... at the end maximum 12 characters
@@ -93,6 +100,23 @@ function Navbar() {
       return string;
     }
   };
+
+  // useffect
+  useEffect(() => {
+    if (!token && !authState.status) {
+      return;
+    } else {
+      axios
+        .get(getProfilePicture, {
+          headers: {
+            accessToken: token,
+          },
+        })
+        .then((response) => {
+          setImage(response.data.image);
+        });
+    }
+  }, [token, authState.status]);
 
   return (
     <Center
@@ -161,7 +185,9 @@ function Navbar() {
                 placeholder="Buscar artículo"
               />
 
-              <InputRightElement children={<IoSearchSharp />} />
+              <InputRightElement>
+                <IoSearchSharp />
+              </InputRightElement>
             </InputGroup>
           </form>
         </Center>
@@ -239,7 +265,7 @@ function Navbar() {
                       h={45}
                       borderRadius={10}
                       objectPosition="center"
-                      src={`${domain}/uploads/default.svg`}
+                      src={`${domain}/uploads/${image}`}
                       alt="avatar"
                     />
                     <IoIosArrowDown />

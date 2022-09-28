@@ -9,7 +9,7 @@ import configColorChakra from "../services/configColorChakra";
 function Search() {
   //states
   const [articles, setArticles] = useState([]);
-  const [articlesError, setArticlesError] = useState();
+
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(false);
   const [message, setMessage] = useState("");

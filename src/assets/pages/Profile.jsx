@@ -1,37 +1,27 @@
 import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
   Box,
   Button,
   Collapse,
-  Fade,
   Flex,
   Image,
   Skeleton,
   Text,
-  useDisclosure,
 } from "@chakra-ui/react";
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import InfoCardProfile from "../components/InfoCardProfile";
-import { AuthContext } from "../contexts/AuthContext";
 import config from "../services/config";
 
 function Profile() {
   //params
   const { username } = useParams();
   //context
-  const { authState } = useContext(AuthContext);
 
   //states
-  const user2 = "";
+
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
 
   const [accountInfo, setAccountInfo] = useState(false);
   const [addressInfo, setAddressInfo] = useState(false);
@@ -54,7 +44,7 @@ function Profile() {
         setLoading(false);
       })
       .catch((error) => {
-        setError(true);
+        error;
         setLoading(false);
       });
   }, []);
@@ -102,7 +92,7 @@ function Profile() {
                   borderRadius={10}
                   w="100%"
                   h="100%"
-                  src={`${domain}/uploads/${user.Image}`}
+                  src={`${domain}/uploads/${user.image}`}
                 />
               </Skeleton>
               <Skeleton

@@ -1,11 +1,10 @@
+import { Box, Skeleton } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import config from "../services/config";
-import { Box, Button, Flex, Image, Skeleton, Text } from "@chakra-ui/react";
 import CardArticle from "../components/CardArticle";
+import config from "../services/config";
 import configColorChakra from "../services/configColorChakra";
-import { Link } from "react-router-dom";
 
 function ListArticles() {
   //states

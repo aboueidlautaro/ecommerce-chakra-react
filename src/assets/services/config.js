@@ -1,4 +1,4 @@
-const domain = "https://backend-ecommerce-chakra-82ba.vercel.app";
+const domain = "http://localhost:3001";
 
 const config = {
   //domain general
@@ -8,8 +8,9 @@ const config = {
   checkToken: `${domain}/auth/validate`,
   loginUser: `${domain}/auth/login`,
   getUserInfo: `${domain}/auth/info`,
+  getProfilePicture: `${domain}/auth/profile`,
   //article
-  createArticle: `${domain}/articles`,
+  createArticle: `${domain}/articles/`,
   allArticles: `${domain}/articles`,
   articleByTitle: `${domain}/articles/byTitle`,
   articleByTag: `${domain}/articles/byTag`,
