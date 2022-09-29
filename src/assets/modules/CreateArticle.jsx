@@ -61,6 +61,7 @@ function CreateArticle() {
       axios
         .post(createArticle, formData, {
           headers: {
+            "Content-Type": "application/json; charset=utf-8",
             accessToken: localStorage.getItem("accessToken"),
           },
         })
