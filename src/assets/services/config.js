@@ -1,4 +1,4 @@
-const domain = "https://backend-ecommerce-chakra-82ba.vercel.app";
+const domain = "https://oyster-app-te4xn.ondigitalocean.app";
 
 const config = {
   //domain general
