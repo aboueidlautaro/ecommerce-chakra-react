@@ -100,8 +100,12 @@ function Article() {
             flexDirection="row"
           >
             <Image
+              objectFit={"contain"}
               w="auto"
-              h="230px"
+              h={{
+                base: "230px",
+                md: "500px",
+              }}
               py={2}
               src={`${domain}/uploads/${article.image}`}
             />
@@ -179,34 +183,7 @@ function Article() {
           >
             ${formatter(article.price)}
           </Text>
-          <Breadcrumb my={3} fontWeight="medium" fontSize="sm">
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/articles/search/all">
-                Artículos
-              </BreadcrumbLink>
-            </BreadcrumbItem>
 
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/articles/search/all">
-                {article.tag}
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-
-            <BreadcrumbItem isCurrentPage>
-              <BreadcrumbLink href={`article/${article.title}`}>
-                <Badge
-                  borderColor="#000"
-                  color="#000"
-                  variant="outline"
-                  fontWeight={500}
-                  noOfLines={1}
-                  textOverflow="ellipsis"
-                >
-                  {article.title}
-                </Badge>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-          </Breadcrumb>
           <Flex
             flexDirection={{
               base: "column",
@@ -243,7 +220,17 @@ function Article() {
               {article.description}
             </Text>
             <Flex gap={3} flexDirection="column">
-              <Stack pl={"32px"} direction="row">
+              <Stack
+                pl={{
+                  base: "0",
+                  md: "32px",
+                }}
+                direction="row"
+                m={{
+                  base: "auto",
+                  md: "0",
+                }}
+              >
                 <Text fontWeight={500}>Disponibles </Text>
                 <Badge
                   borderRadius={4}
@@ -255,7 +242,13 @@ function Article() {
                   {article.stock}
                 </Badge>
               </Stack>
-              <Stack direction="row">
+              <Stack
+                direction="row"
+                m={{
+                  base: "auto",
+                  md: "0",
+                }}
+              >
                 <Badge
                   borderRadius={4}
                   px={3}
