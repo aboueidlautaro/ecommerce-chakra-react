@@ -53,14 +53,21 @@ function Article() {
   }, []);
 
   return (
-    <Flex color={secondary} w="full" h="91vh" bg={background}>
+    <Flex
+      py={10}
+      color={secondary}
+      w="full"
+      minH="100vh"
+      h="auto"
+      bg={background}
+    >
       <Flex
         borderRadius="10px"
         boxShadow="xl"
         m="auto"
-        w="85%"
+        w="90%"
         bg="#fff"
-        h="90%"
+        h="95%"
         justifyContent="center"
         flexDirection={{
           base: "column",
@@ -95,6 +102,7 @@ function Article() {
             <Image
               w="auto"
               h="230px"
+              py={2}
               src={`${domain}/uploads/${article.image}`}
             />
           </Flex>
