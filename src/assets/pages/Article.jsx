@@ -93,8 +93,8 @@ function Article() {
             flexDirection="row"
           >
             <Image
-              w="65%"
-              h="auto"
+              w="auto"
+              h="230px"
               src={`${domain}/uploads/${article.image}`}
             />
           </Flex>
@@ -136,7 +136,17 @@ function Article() {
             md: "55%",
           }}
         >
-          <Text as="h2" fontSize="34px" fontWeight={500}>
+          <Text
+            noOfLines={2}
+            textOverflow="ellipsis"
+            as="h2"
+            fontSize={{
+              base: "1.6rem",
+              md: "34px",
+            }}
+            fontWeight={500}
+            h="100%"
+          >
             {article.title}
           </Text>
           <Badge
