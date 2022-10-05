@@ -1,4 +1,4 @@
-const domain = "http://localhost:3001";
+const domain = "https://oyster-app-te4xn.ondigitalocean.app";
 
 const config = {
   //domain general
