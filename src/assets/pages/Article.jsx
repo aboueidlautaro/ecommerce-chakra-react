@@ -143,6 +143,7 @@ function Article() {
         >
           <Text
             noOfLines={2}
+            overflow="hidden"
             textOverflow="ellipsis"
             as="h2"
             fontSize={{
@@ -151,6 +152,11 @@ function Article() {
             }}
             fontWeight={500}
             h="100%"
+            py={{
+              base: 0,
+              md: 4,
+              lg: 8,
+            }}
           >
             {article.title}
           </Text>
