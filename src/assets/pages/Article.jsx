@@ -53,21 +53,14 @@ function Article() {
   }, []);
 
   return (
-    <Flex
-      py={10}
-      color={secondary}
-      w="full"
-      minH="100vh"
-      h="auto"
-      bg={background}
-    >
+    <Flex color={secondary} w="full" minH="100vh" h="auto" bg={background}>
       <Flex
         borderRadius="10px"
         boxShadow="xl"
         m="auto"
         w="90%"
         bg="#fff"
-        h="95%"
+        h="100%"
         justifyContent="center"
         flexDirection={{
           base: "column",
