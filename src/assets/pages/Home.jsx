@@ -1,3 +1,4 @@
+import { Box } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import SlideArticles from "../components/SlideArticles";
@@ -24,12 +25,12 @@ function Home() {
   }
 
   return (
-    <>
+    <Box paddingBottom={10}>
       <TitleHomeSliders content="ARTÍCULOS DESTACADOS" />
       <SlideArticles results={listOfRelevantArticles} />
       <TitleHomeSliders content="ARTÍCULOS NUEVOS" />
       <SlideArticles results={listOfNewArticles} />
-    </>
+    </Box>
   );
 }
 export default Home;

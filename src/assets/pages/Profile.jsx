@@ -1,4 +1,5 @@
 import {
+  Badge,
   Box,
   Button,
   Collapse,
@@ -8,37 +9,83 @@ import {
   Text,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { ErrorMessage, Form, Formik } from "formik";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import * as Yup from "yup";
+import ButtonsEditProfile from "../components/ButtonsEditProfile";
 import InfoCardProfile from "../components/InfoCardProfile";
+import { AuthContext } from "../contexts/AuthContext";
 import config from "../services/config";
+import configColorChakra from "../services/configColorChakra";
 
 function Profile() {
+  // config global
+  const { background } = configColorChakra;
   //params
   const { username } = useParams();
   //context
-
+  const { authState, setAuthState } = useContext(AuthContext);
   //states
 
+  const [error, setError] = useState(false);
+
+  const [messageUpdate, setMessageUpdate] = useState("");
+
   const [user, setUser] = useState({});
+  const userr = user;
   const [loading, setLoading] = useState(false);
 
   const [accountInfo, setAccountInfo] = useState(false);
   const [addressInfo, setAddressInfo] = useState(false);
   const [ordersInfo, setOrdersInfo] = useState(false);
 
+  const [clickEditAccountInfo, setClickEditAccountInfo] = useState(false);
+  const [clickEditAddressInfo, setClickEditAddressInfo] = useState(false);
+
   const handleAccountInfo = () => setAccountInfo(!accountInfo);
   const handleAddressInfo = () => setAddressInfo(!addressInfo);
   const handleOrdersInfo = () => setOrdersInfo(!ordersInfo);
 
   // global config
-  const { domain, getUserInfo } = config;
+  const { domain, getUserInfo, updateAccountInfo } = config;
 
   //functions
+  const handleClickEditAccountInfo = () => {
+    setClickEditAccountInfo(!clickEditAccountInfo);
+  };
+
+  const handleClickEditAddressInfo = () => {
+    setClickEditAddressInfo(!clickEditAddressInfo);
+  };
+
+  const updateAccountInfoData = (data) => {
+    axios
+      .put(updateAccountInfo, data, {
+        headers: {
+          accessToken: window.localStorage.getItem("accessToken"),
+        },
+      })
+      .then((response) => {
+        setClickEditAccountInfo(false);
+        setError(false);
+        setAuthState(...authState, ...response.data);
+      })
+      .catch((error) => {
+        setMessageUpdate("Error al actualizar los datos");
+        setError(true);
+      });
+  };
+
+  //useEffect
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`${getUserInfo}/${username}`)
+      .get(`${getUserInfo}/${username}`, {
+        headers: {
+          accessToken: window.localStorage.getItem("accessToken"),
+        },
+      })
       .then((response) => {
         setUser(response.data);
         setLoading(false);
@@ -48,10 +95,23 @@ function Profile() {
         setLoading(false);
       });
   }, []);
-  //
+
+  //validation schema
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().min(5, "Minimo 5 caracteres"),
+    email: Yup.string().email("Introduzca un email valido"),
+    phone: Yup.number()
+      .typeError("Sólo números")
+      .min(10, "Introduzca un formato de número válido"),
+    dni: Yup.number()
+      .typeError("Sólo números")
+      .integer("Introduzca un formato de DNI válido")
+      .min(7, "Introduzca un formato de DNI válido"),
+  });
+
   return (
     <>
-      <Box>
+      <Box bg={background}>
         <Flex
           marginTop={20}
           margin="auto"
@@ -79,7 +139,7 @@ function Profile() {
               marginTop={"60px"}
               textAlign={"center"}
               width="200px"
-              height="200px"
+              height="auto"
             >
               <Skeleton
                 h="200px"
@@ -87,17 +147,27 @@ function Profile() {
                 borderRadius={10}
                 isLoaded={!loading}
               >
-                <Image
-                  objectFit="cover"
-                  borderRadius={10}
-                  w="100%"
-                  h="100%"
-                  src={`${domain}/uploads/${user.image}`}
-                />
+                {userr.image !== null ? (
+                  <Image
+                    objectFit="cover"
+                    borderRadius={10}
+                    w="100%"
+                    h="100%"
+                    src={`${domain}/uploads/${user.image}`}
+                  />
+                ) : (
+                  <Image
+                    objectFit="cover"
+                    borderRadius={10}
+                    w="100%"
+                    h="100%"
+                    src={`https://ui-avatars.com/api/?background=random&name=${userr.name}&size=128`}
+                  />
+                )}
               </Skeleton>
               <Skeleton
                 marginTop={4}
-                h={6}
+                h={"auto"}
                 borderRadius={15}
                 isLoaded={!loading}
               >
@@ -148,36 +218,91 @@ function Profile() {
                   Ver más
                 </Button>
               </Flex>
+              <Formik
+                initialValues={{
+                  name: userr.name,
+                  email: userr.email,
+                  dni: userr.dni,
+                  phone: userr.phone,
+                }}
+                onSubmit={updateAccountInfoData}
+                validationSchema={validationSchema}
+              >
+                <Form id="formAccountInfo">
+                  <InfoCardProfile
+                    info={user.name}
+                    title="Nombre"
+                    isLoaded={!loading}
+                    isClickEdit={clickEditAccountInfo}
+                    name="name"
+                    clickEditAccountInfo={clickEditAccountInfo}
+                  />
+                  <Flex paddingX={36} marginY={3} justifyContent="left">
+                    <Badge colorScheme="red">
+                      <ErrorMessage name="name" />
+                    </Badge>
+                  </Flex>
 
-              <InfoCardProfile
-                stateInfo={user}
-                info={user.name}
-                title="Nombre"
-                isLoaded={!loading}
-              />
+                  <InfoCardProfile
+                    info={user.email}
+                    title="Email"
+                    isLoaded={!loading}
+                    isClickEdit={clickEditAccountInfo}
+                    name="email"
+                    clickEditAccountInfo={clickEditAccountInfo}
+                  />
+                  <Flex paddingX={36} marginY={3} justifyContent="left">
+                    <Badge colorScheme="red">
+                      <ErrorMessage name="email" />
+                    </Badge>
+                  </Flex>
 
-              <InfoCardProfile
-                stateInfo={user}
-                info={user.name}
-                title="Email"
-                isLoaded={!loading}
-              />
+                  <InfoCardProfile
+                    info={user.phone}
+                    title="Teléfono"
+                    isLoaded={!loading}
+                    isClickEdit={clickEditAccountInfo}
+                    name="phone"
+                    clickEditAccountInfo={clickEditAccountInfo}
+                  />
+                  <Flex paddingX={36} justifyContent="left" marginTop={3}>
+                    <Badge colorScheme="red">
+                      <ErrorMessage name="phone" />
+                    </Badge>
+                  </Flex>
 
-              <InfoCardProfile
-                stateInfo={user}
-                info={user.name}
-                title="Teléfono"
-                isLoaded={!loading}
-              />
-
-              <Collapse in={accountInfo} animateOpacity>
-                <InfoCardProfile
-                  stateInfo={user}
-                  info={user.name}
-                  title="Contraseña"
-                  isLoaded={!loading}
-                />
-              </Collapse>
+                  <Collapse in={accountInfo} animateOpacity>
+                    <InfoCardProfile
+                      info={user.dni}
+                      title="DNI"
+                      isLoaded={!loading}
+                      isClickEdit={clickEditAccountInfo}
+                      name="dni"
+                      clickEditAccountInfo={clickEditAccountInfo}
+                    />
+                    <Flex paddingX={36} marginY={3} justifyContent="left">
+                      <Badge colorScheme="red">
+                        <ErrorMessage name="dni" />
+                      </Badge>
+                    </Flex>
+                    {clickEditAccountInfo ? (
+                      <ButtonsEditProfile
+                        onClick={handleClickEditAccountInfo}
+                      />
+                    ) : (
+                      <Button
+                        variant={"solid"}
+                        colorScheme={"yellow"}
+                        size={"sm"}
+                        onClick={handleClickEditAccountInfo}
+                        float={"right"}
+                      >
+                        Editar
+                      </Button>
+                    )}
+                  </Collapse>
+                </Form>
+              </Formik>
             </Box>
             {/* SECCION COMPRAS */}
             <Box
@@ -199,21 +324,18 @@ function Profile() {
               </Flex>
 
               <InfoCardProfile
-                stateInfo={user}
                 info={user.name}
                 title="Nombre"
                 isLoaded={!loading}
               />
 
               <InfoCardProfile
-                stateInfo={user}
                 info={user.name}
                 title="Email"
                 isLoaded={!loading}
               />
 
               <InfoCardProfile
-                stateInfo={user}
                 info={user.name}
                 title="Teléfono"
                 isLoaded={!loading}
@@ -221,7 +343,6 @@ function Profile() {
 
               <Collapse in={addressInfo} animateOpacity>
                 <InfoCardProfile
-                  stateInfo={user}
                   info={user.name}
                   title="Contraseña"
                   isLoaded={!loading}
@@ -248,21 +369,18 @@ function Profile() {
               </Flex>
 
               <InfoCardProfile
-                stateInfo={user}
                 info={user.name}
                 title="Nombre"
                 isLoaded={!loading}
               />
 
               <InfoCardProfile
-                stateInfo={user}
                 info={user.name}
                 title="Email"
                 isLoaded={!loading}
               />
 
               <InfoCardProfile
-                stateInfo={user}
                 info={user.name}
                 title="Teléfono"
                 isLoaded={!loading}
@@ -270,7 +388,6 @@ function Profile() {
 
               <Collapse in={ordersInfo} animateOpacity>
                 <InfoCardProfile
-                  stateInfo={user}
                   info={user.name}
                   title="Contraseña"
                   isLoaded={!loading}

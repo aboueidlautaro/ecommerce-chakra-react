@@ -6,15 +6,13 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ErrorForm from "../components/ErrorForm";
 import config from "../services/config";
-import { useEffect } from "react";
 
-function CreateStaff() {
+function CreateBrand() {
   //initial values
-  const { usersList, createStaff, allRoles } = config;
+  const { createBrand } = config;
 
   const initialValues = {
-    user_role: "",
-    username: "",
+    name: "",
   };
   //initialize navigate
   let navigate = useNavigate();
@@ -23,8 +21,6 @@ function CreateStaff() {
   const [error, setError] = useState(true);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [users, setUsers] = useState([]);
-  const [roles, setRoles] = useState([]);
 
   //functions
 
@@ -36,39 +32,34 @@ function CreateStaff() {
 
   const onSubmit = (data) => {
     setLoading(true);
+    const form = document.getElementById("form");
 
     try {
-      axios.put(createStaff, data).then((response) => {
+      axios.post(createBrand, data).then((response) => {
         setError(false);
-        setMessage("Rol asignado correctamente");
+        setMessage("Marca creada correctamente");
         setLoading(false);
+        form.reset();
       });
     } catch (error) {
-      setError(true);
-      setMessage("Error al asignar rol");
       setLoading(false);
+      setError(true);
+      setMessage("Error al crear la marca");
     }
   };
 
-  useEffect(() => {
-    axios
-      .get(usersList)
-      .then((response) => {
-        setUsers(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    axios.get(allRoles).then((response) => {
-      setRoles(response.data);
-    });
-  }, []);
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required("Introduzca un nombre para la marca"),
+  });
 
   return (
     <>
       <Box m={20}>
-        <Formik initialValues={initialValues} onSubmit={onSubmit}>
+        <Formik
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+          validationSchema={validationSchema}
+        >
           <Form id="form">
             <Flex
               gap={4}
@@ -77,32 +68,10 @@ function CreateStaff() {
               flexDirection={"column"}
             >
               <Text as="b" fontSize="xl">
-                Usuario a editar:{" "}
+                Nombre de la marca:{" "}
               </Text>
-              <Field as="select" name="user_role" placeholder="Rol de usuario">
-                <option value="">Seleccione un rol</option>
-                {roles.map((role) => {
-                  return (
-                    <option key={role.id} value={role.name}>
-                      {role.name}
-                    </option>
-                  );
-                })}
-              </Field>
-
-              <Text as="b" fontSize="xl">
-                Usuario a editar:{" "}
-              </Text>
-              <Field as="select" name="username" placeholder="Rol de usuario">
-                <option value="">Seleccione un usuario</option>
-                {users.map((user) => {
-                  return (
-                    <option key={user.username} value={user.username}>
-                      @{user.username} - {user.name}
-                    </option>
-                  );
-                })}
-              </Field>
+              <Field name="name" placeholder="Ingresar marca" />
+              <ErrorForm name="name" />
 
               {error ? (
                 <Text as="b" rounded={2} bg="red.300">
@@ -148,4 +117,4 @@ function CreateStaff() {
   );
 }
 
-export default CreateStaff;
+export default CreateBrand;

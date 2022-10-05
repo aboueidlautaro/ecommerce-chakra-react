@@ -1,18 +1,22 @@
 import { Box, Text } from "@chakra-ui/react";
 import {
   faBox,
-  faClipboardUser,
+  faUser,
   faTable,
   faTableColumns,
+  faCopyright,
+  faIdCard,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import ButtonModules from "../components/ButtonModules";
+import configColorChakra from "../services/configColorChakra";
 
 function Modules() {
+  const { background } = configColorChakra;
   return (
     <>
-      <Box textAlign="center" p={3}>
+      <Box bg={background} textAlign="center" p={3}>
         <Box p={5}>
           <Text fontSize={"2xl"} as={"b"}>
             Seleccionar módulo
@@ -36,8 +40,23 @@ function Modules() {
           />
           <ButtonModules
             name="Crear miembros"
-            icon={<FontAwesomeIcon icon={faClipboardUser} />}
+            icon={<FontAwesomeIcon icon={faUser} />}
             to="/create/staff"
+          />
+          <ButtonModules
+            name="Crear marcas"
+            icon={<FontAwesomeIcon icon={faCopyright} />}
+            to="/create/brand"
+          />
+          <ButtonModules
+            name="Crear rol"
+            icon={<FontAwesomeIcon icon={faIdCard} />}
+            to="/create/role"
+          />
+          <ButtonModules
+            name="Crear tag"
+            icon={<FontAwesomeIcon icon={faIdCard} />}
+            to="/create/tag"
           />
         </Box>
       </Box>

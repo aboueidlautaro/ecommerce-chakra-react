@@ -40,7 +40,8 @@ function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [search, setSearch] = useState("");
   const token = localStorage.getItem("accessToken");
-  const [image, setImage] = useState("");
+
+  const [user, setUser] = useState({});
 
   // keys ref
   const handleKeyUp = (e) => {
@@ -58,17 +59,15 @@ function Navbar() {
     configColorChakra;
 
   // global config
-  const { getProfilePicture, domain } = config;
+  const { getUserProfileInfo, domain } = config;
 
   // functions
   const logout = () => {
     localStorage.removeItem("accessToken");
     setAuthState({
       username: "",
-      name: "",
-      id: 0,
+
       status: false,
-      user_role: "",
     });
     window.location.reload();
   };
@@ -107,13 +106,13 @@ function Navbar() {
       return;
     } else {
       axios
-        .get(getProfilePicture, {
+        .get(getUserProfileInfo, {
           headers: {
             accessToken: token,
           },
         })
         .then((response) => {
-          setImage(response.data.image);
+          setUser(response.data);
         });
     }
   }, [token, authState.status]);
@@ -135,10 +134,16 @@ function Navbar() {
         }}
         h="full"
         color={secondary}
-        w="90%"
+        w={{
+          base: "100%",
+          md: "90%",
+        }}
         justify="space-between"
         align="center"
-        px={10}
+        px={{
+          base: "0px",
+          md: "10px",
+        }}
         flexDirection={{
           base: "column",
           md: "row",
@@ -168,6 +173,13 @@ function Navbar() {
           >
             <InputGroup>
               <Input
+                w={{
+                  base: "100%",
+                  sm: "350px",
+                  lg: "500px",
+                  xl: "600px",
+                  "2xl": "750px",
+                }}
                 color={secondaryHover}
                 border={"none"}
                 _focus={{
@@ -253,40 +265,52 @@ function Navbar() {
                       flexDirection={"column"}
                       lineHeight={1}
                     >
-                      <Text>{limitCharacters(authState?.name)}</Text>
+                      <Text>{limitCharacters(user.name)}</Text>
                       <Text fontSize={14} fontWeight={400}>
-                        {authState?.username}
+                        {user.username}
                       </Text>
                     </Flex>
+                    {user.image !== null ? (
+                      <Image
+                        marginLeft={2}
+                        w={45}
+                        h={45}
+                        borderRadius={10}
+                        objectPosition="center"
+                        src={`${domain}/uploads/${user.image}`}
+                        alt="avatar"
+                      />
+                    ) : (
+                      <Image
+                        marginLeft={2}
+                        w={45}
+                        h={45}
+                        borderRadius={10}
+                        objectPosition="center"
+                        src={`https://ui-avatars.com/api/?background=random&name=${user.name}&size=128`}
+                        alt="avatar"
+                      />
+                    )}
 
-                    <Image
-                      marginLeft={2}
-                      w={45}
-                      h={45}
-                      borderRadius={10}
-                      objectPosition="center"
-                      src={`${domain}/uploads/${image}`}
-                      alt="avatar"
-                    />
                     <IoIosArrowDown />
                   </Flex>
                 </MenuButton>
                 <MenuList border={`2px solid ${primary}`} textAlign={"center"}>
                   <MenuGroup
                     justifyContent="center"
-                    title={`Hola! ${authState.name}`}
+                    title={`Hola! ${user.name}`}
                   >
                     <ItemMenuProfile
                       icon={<FaUser />}
                       content="Mi perfil"
-                      to={`/user/profile/${authState?.username}`}
+                      to={`/user/profile/${user.username}`}
                     />
                     <ItemMenuProfile
                       icon={<BsFillHeartFill />}
                       content="Favoritos"
                       to="/favorites"
                     />
-                    {authState.user_role === "admin" ? (
+                    {user.user_role === "admin" ? (
                       <ItemMenuProfile
                         icon={<BsFillShieldLockFill />}
                         content="Módulos creación"

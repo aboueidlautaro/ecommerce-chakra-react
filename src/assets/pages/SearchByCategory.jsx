@@ -1,14 +1,14 @@
 import { Box, Flex, Skeleton, Text } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import CardArticle from "../components/CardArticle";
 import Pagination from "../components/Pagination";
 import Categories from "../modules/Categories";
 import config from "../services/config";
 import configColorChakra from "../services/configColorChakra";
 
-function Search() {
+function SearchByCategory() {
   //states
   const [articles, setArticles] = useState([]);
 
@@ -25,30 +25,29 @@ function Search() {
 
   // config global
   const { background } = configColorChakra;
-  const { searchArticle, domain } = config;
-
-  // params
-  const [searchParams, setSearchParams] = useSearchParams();
-  const q = searchParams.get("q");
+  const { articlesByCategory, domain } = config;
 
   // functions
 
+  //params
+  const { id } = useParams();
+
   //useEffect
   useEffect(() => {
-    axios.get(`${searchArticle}${q}`).then((response) => {
-      if (response.data.articles?.length > 0) {
-        setArticles(response.data.articles);
+    axios.get(`${articlesByCategory}/${id}`).then((response) => {
+      if (response.data?.length > 0) {
+        setArticles(response.data);
         setIsLoaded(true);
         setError(false);
         setMessage("");
       } else {
+        setArticles([]);
         setMessage("No se encontraron articulos relacionados a su búsqueda");
         setError(true);
-        setArticles([]);
         setIsLoaded(true);
       }
     });
-  }, [q]);
+  }, [id]);
 
   return (
     <>
@@ -74,7 +73,7 @@ function Search() {
           defaultValue={higherPrice}
           setSliderPrice={setSliderPrice}
           max={higherPrice}
-          searched={q}
+          searched={id}
         />
         {error ? (
           <Box w="full">
@@ -83,6 +82,7 @@ function Search() {
             </Text>
           </Box>
         ) : null}
+
         <Box w="100%">
           {articles.error === true ? null : (
             <Flex
@@ -91,33 +91,35 @@ function Search() {
               gap={4}
               bg={background}
             >
-              {articles.map((article) => {
-                {
-                  article.price > higherPrice
-                    ? setHigherPrice(article.price)
-                    : null;
-                }
-                if (article.price <= sliderPrice) {
-                  return (
-                    <Skeleton
-                      key={article.id}
-                      fadeDuration={1}
-                      borderRadius={6}
-                      w={255}
-                      isLoaded={isLoaded}
-                    >
-                      <CardArticle
-                        title={article.title}
-                        tag={article.tag}
-                        price={article.price}
-                        src={`${domain}/uploads/${article.image}`}
-                      />
-                    </Skeleton>
-                  );
-                } else {
-                  return null;
-                }
-              })}
+              {articles
+                .slice((page - 1) * offset, (page - 1) * offset + offset)
+                .map((article) => {
+                  {
+                    article.price > higherPrice
+                      ? setHigherPrice(article.price)
+                      : null;
+                  }
+                  if (article.price <= sliderPrice) {
+                    return (
+                      <Skeleton
+                        key={article.id}
+                        fadeDuration={1}
+                        borderRadius={6}
+                        w={255}
+                        isLoaded={isLoaded}
+                      >
+                        <CardArticle
+                          title={article.title}
+                          tag={article.tag}
+                          price={article.price}
+                          src={`${domain}/uploads/${article.image}`}
+                        />
+                      </Skeleton>
+                    );
+                  } else {
+                    return null && <h3>asd</h3>;
+                  }
+                })}
             </Flex>
           )}
         </Box>
@@ -127,4 +129,4 @@ function Search() {
   );
 }
 
-export default Search;
+export default SearchByCategory;

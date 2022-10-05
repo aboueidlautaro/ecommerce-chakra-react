@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, CircularProgress, Flex, Text } from "@chakra-ui/react";
 import axios from "axios";
 import { Field, Form, Formik } from "formik";
 import React, { useState } from "react";
@@ -10,6 +10,8 @@ import ErrorForm from "../components/ErrorForm";
 import config from "../services/config";
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Login() {
   // authState context
@@ -35,6 +37,7 @@ function Login() {
   const [error, setError] = useState(true);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [passwordToggle, setPasswordToggle] = useState(false);
 
   // form submit
   const login = (data) => {
@@ -86,7 +89,7 @@ function Login() {
             alignItems="center"
             flexDirection={"column"}
             maxWidth={"500px"}
-            w={"100%"}
+            w={"90%"}
             marginTop={"60px"}
             bg={"white"}
           >
@@ -119,10 +122,16 @@ function Login() {
                   <ErrorForm name="username" />
 
                   <Field
-                    type="password"
+                    type={passwordToggle ? "text" : "password"}
                     name="password"
                     placeholder="Contraseña"
                   />
+                  <Button
+                    size={2}
+                    onClick={() => setPasswordToggle(!passwordToggle)}
+                  >
+                    <FontAwesomeIcon icon={faEye} />
+                  </Button>
                   <ErrorForm name="password" />
                 </Flex>
 

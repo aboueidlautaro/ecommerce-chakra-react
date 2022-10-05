@@ -14,7 +14,8 @@ import { CircularProgress } from "@chakra-ui/react";
 
 function CreateArticle() {
   //initial values
-  const { createArticle, allSubCategories } = config;
+  const { createArticle, allSubCategories, allBrands, allTags, allCategories } =
+    config;
 
   const initialValues = {
     title: "",
@@ -23,6 +24,9 @@ function CreateArticle() {
     tag: "",
     price: "",
     image: "",
+    SKU: "",
+    stock: "",
+    brandId: "",
   };
   //initialize navigate
   let navigate = useNavigate();
@@ -32,7 +36,10 @@ function CreateArticle() {
   const [error, setError] = useState(true);
   const [image, setImage] = useState({ preview: "", data: "" });
   const [subCategories, setSubCategories] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [brands, setBrands] = useState([]);
+  const [tags, setTags] = useState([]);
   //functions
 
   const cancelForm = () => {
@@ -90,11 +97,24 @@ function CreateArticle() {
       .integer("Sólo números enteros")
       .required("Introduzca un precio")
       .min(1, "El precio debe ser mayor que 0"),
+    stock: Yup.number()
+      .typeError("Sólo números")
+      .integer("Sólo números enteros")
+      .required("Introduzca un stock"),
   });
 
   useEffect(() => {
     axios.get(allSubCategories).then((response) => {
       setSubCategories(response.data);
+    });
+    axios.get(allBrands).then((response) => {
+      setBrands(response.data);
+    });
+    axios.get(allTags).then((response) => {
+      setTags(response.data);
+    });
+    axios.get(allCategories).then((response) => {
+      setCategories(response.data);
     });
   }, []);
 
@@ -137,11 +157,16 @@ function CreateArticle() {
               />
               <ErrorForm name="description" />
 
-              <Text as="b" fontSize="xl">
-                Etiqueta de artículo:{" "}
-              </Text>
-              <Field name="tag" placeholder="Introduzca la etiqueta" />
-              <ErrorForm name="tag" />
+              <Field as="select" name="tag" placeholder="Tag del artículo">
+                <option value="">Seleccione un tag</option>
+                {tags.map((tag) => {
+                  return (
+                    <option key={tag.id} value={tag.name}>
+                      {tag.name}
+                    </option>
+                  );
+                })}
+              </Field>
 
               <Text as="b" fontSize="xl">
                 Precio:{" "}
@@ -152,6 +177,40 @@ function CreateArticle() {
                 placeholder="Introduzca el precio"
               />
               <ErrorForm name="price" />
+
+              <Text as="b" fontSize="xl">
+                SKU:{" "}
+              </Text>
+              <Field name="SKU" placeholder="Introduzca un SKU" />
+              <ErrorForm name="SKU" />
+
+              <Text as="b" fontSize="xl">
+                Cantidad:{" "}
+              </Text>
+              <Field
+                type="number"
+                name="stock"
+                placeholder="Introduzca una cantidad"
+              />
+              <ErrorForm name="stock" />
+
+              <Text as="b" fontSize="xl">
+                Marca:{" "}
+              </Text>
+              <Field
+                as="select"
+                name="BrandId"
+                placeholder="Marca del artículo"
+              >
+                <option value="">Seleccione marca</option>
+                {brands.map((brand) => {
+                  return (
+                    <option key={brand.id} value={brand.id}>
+                      {brand.name}
+                    </option>
+                  );
+                })}
+              </Field>
 
               <Text as="b" fontSize="xl">
                 Imagen:{" "}
@@ -180,6 +239,20 @@ function CreateArticle() {
                   return (
                     <option key={subcategory.id} value={subcategory.id}>
                       {subcategory.name}
+                    </option>
+                  );
+                })}
+              </Field>
+
+              <Text as="b" fontSize="xl">
+                Categoría del artículo:{" "}
+              </Text>
+              <Field as="select" name="CategoryId" placeholder="Categoría">
+                <option value="">Seleccione una categoría</option>
+                {categories.map((category) => {
+                  return (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
                     </option>
                   );
                 })}
