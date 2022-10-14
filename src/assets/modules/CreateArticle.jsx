@@ -40,6 +40,7 @@ function CreateArticle() {
   const [loading, setLoading] = useState(false);
   const [brands, setBrands] = useState([]);
   const [tags, setTags] = useState([]);
+  const [isCategorySelected, setIsCategorySelected] = useState("");
   //functions
 
   const cancelForm = () => {
@@ -104,9 +105,6 @@ function CreateArticle() {
   });
 
   useEffect(() => {
-    axios.get(allSubCategories).then((response) => {
-      setSubCategories(response.data);
-    });
     axios.get(allBrands).then((response) => {
       setBrands(response.data);
     });
@@ -117,6 +115,18 @@ function CreateArticle() {
       setCategories(response.data);
     });
   }, []);
+
+  useEffect(() => {
+    axios.get(allSubCategories).then((response) => {
+      if (isCategorySelected) {
+        setSubCategories(
+          response.data.filter(
+            (subCategory) => subCategory.categoryId === isCategorySelected
+          )
+        );
+      }
+    });
+  }, [isCategorySelected]);
 
   return (
     <>
@@ -227,27 +237,16 @@ function CreateArticle() {
               <ErrorForm name="image" />
 
               <Text as="b" fontSize="xl">
-                Subcategoría del artículo:{" "}
-              </Text>
-              <Field
-                as="select"
-                name="SubCategoryId"
-                placeholder="Subcategoría"
-              >
-                <option value="">Seleccione una subcategoría</option>
-                {subCategories.map((subcategory) => {
-                  return (
-                    <option key={subcategory.id} value={subcategory.id}>
-                      {subcategory.name}
-                    </option>
-                  );
-                })}
-              </Field>
-
-              <Text as="b" fontSize="xl">
                 Categoría del artículo:{" "}
               </Text>
-              <Field as="select" name="CategoryId" placeholder="Categoría">
+              <Field
+                onChange={(e) => {
+                  setIsCategorySelected(e.target.value);
+                }}
+                as="select"
+                name="CategoryId"
+                placeholder="Categoría"
+              >
                 <option value="">Seleccione una categoría</option>
                 {categories.map((category) => {
                   return (
@@ -257,6 +256,28 @@ function CreateArticle() {
                   );
                 })}
               </Field>
+
+              {isCategorySelected ? (
+                <>
+                  <Text as="b" fontSize="xl">
+                    Subcategoría del artículo:{" "}
+                  </Text>
+                  <Field
+                    as="select"
+                    name="SubCategoryId"
+                    placeholder="Subcategoría"
+                  >
+                    <option value="">Seleccione una subcategoría</option>
+                    {subCategories.map((subCategory) => {
+                      return (
+                        <option key={subCategory.id} value={subCategory.id}>
+                          {subCategory.name}
+                        </option>
+                      );
+                    })}
+                  </Field>
+                </>
+              ) : null}
 
               {error ? (
                 <Text as="b" rounded={2} bg="red.300">

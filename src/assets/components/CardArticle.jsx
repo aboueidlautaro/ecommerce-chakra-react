@@ -33,12 +33,13 @@ function CardArticle(props) {
             w={"auto"}
             maxW={235}
             src={props.src}
+            pt={2}
           />
         </Box>
         <Flex
           gap={2}
           alignItems={"center"}
-          justifyContent={"flex-start"}
+          justifyContent={"center"}
           flexDirection={"column"}
           h={"40%"}
           marginTop={1}

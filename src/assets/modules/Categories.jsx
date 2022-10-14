@@ -48,6 +48,9 @@ function Categories(props) {
       marginBottom={5}
     >
       <Box
+        display="flex"
+        justifyContent="space-between"
+        flexDirection="column"
         p={3}
         borderRadius={6}
         border={`1px solid ${borders}`}
@@ -91,7 +94,14 @@ function Categories(props) {
         </Text>
         {categories.map((category) => {
           return (
-            <Box key={category.id} pl={2} py="2.5px">
+            <Box
+              _hover={{
+                fontWeight: "500",
+              }}
+              key={category.id}
+              pl={2}
+              py="2.5px"
+            >
               <Link to={`/articles/search/${category.id}`}>
                 {category.name}
               </Link>
@@ -115,9 +125,12 @@ function Categories(props) {
           <SliderMark value={valueSlider}>
             <Text
               m={4}
-              fontSize="sm"
+              position="absolute"
+              top="-6px"
+              left="-32px"
+              fontSize="xs"
               color={secondaryHover}
-              fontWeight="700"
+              fontWeight="600"
               as="span"
             >
               ${valueSlider}

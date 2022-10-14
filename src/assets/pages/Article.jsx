@@ -1,25 +1,21 @@
 import {
   Badge,
   Box,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
   Button,
-  Center,
   Divider,
   Flex,
   Image,
+  Skeleton,
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import config from "../services/config";
 import configColorChakra from "../services/configColorChakra";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
-import SlideArticles from "../components/SlideArticles";
 
 function Article() {
   //states
@@ -53,8 +49,9 @@ function Article() {
   }, []);
 
   return (
-    <Flex color={secondary} w="full" minH="100vh" h="auto" bg={background}>
+    <Flex color={secondary} py={10} w="full" h="auto" bg={background}>
       <Flex
+        pr={3}
         borderRadius="10px"
         boxShadow="xl"
         m="auto"
@@ -92,16 +89,18 @@ function Article() {
             alignItems="center"
             flexDirection="row"
           >
-            <Image
-              objectFit={"contain"}
-              w="auto"
-              h={{
-                base: "230px",
-                md: "500px",
-              }}
-              py={2}
-              src={`${domain}/uploads/${article.image}`}
-            />
+            <Skeleton borderRadius={6} isLoaded={isLoaded}>
+              <Image
+                objectFit={"contain"}
+                w="auto"
+                h={{
+                  base: "230px",
+                  md: "500px",
+                }}
+                py={2}
+                src={`${domain}/uploads/${article.image}`}
+              />
+            </Skeleton>
           </Flex>
         </Flex>
         <Divider
@@ -158,30 +157,37 @@ function Article() {
               lg: 8,
             }}
           >
-            {article.title}
+            <Skeleton borderRadius={6} isLoaded={isLoaded}>
+              {article.title}
+            </Skeleton>
           </Text>
+
           <Badge
             color={secondary}
             p={"2px"}
             w={"126px"}
+            my={2}
             borderRadius={5}
             textAlign="center"
             bg={primary}
             variant={"solid"}
             fontSize="14px"
           >
-            {article.tag}
+            <Skeleton m="auto" w="80px" borderRadius={6} isLoaded={isLoaded}>
+              {article.tag}
+            </Skeleton>
           </Badge>
-          <Text
-            my={5}
-            fontWeight={700}
-            letterSpacing={"0.24px"}
-            lineHeight={0.8}
-            fontSize="44px"
-            as="span"
-          >
-            ${formatter(article.price)}
-          </Text>
+          <Skeleton my={5} borderRadius={6} isLoaded={isLoaded}>
+            <Text
+              fontWeight={700}
+              letterSpacing={"0.24px"}
+              lineHeight={0.8}
+              fontSize="44px"
+              as="span"
+            >
+              ${formatter(article.price)}
+            </Text>
+          </Skeleton>
 
           <Flex
             flexDirection={{
@@ -198,7 +204,13 @@ function Article() {
               lineHeight={0.8}
             >
               <b>SKU: </b>
-              {article.SKU}
+              <Skeleton
+                display="inline-block"
+                borderRadius={6}
+                isLoaded={isLoaded}
+              >
+                {article.SKU}
+              </Skeleton>
             </Text>
             <Text
               pl={3}
@@ -216,7 +228,13 @@ function Article() {
                 md: "block",
               }}
             >
-              {article.description}
+              <Skeleton
+                display="inline-block"
+                borderRadius={6}
+                isLoaded={isLoaded}
+              >
+                {article.description}
+              </Skeleton>
             </Text>
             <Flex gap={3} flexDirection="column">
               <Stack
@@ -238,7 +256,13 @@ function Article() {
                   fontSize="16px"
                   colorScheme={article.stock > 0 ? "facebook" : "red"}
                 >
-                  {article.stock}
+                  <Skeleton
+                    display="inline-block"
+                    borderRadius={6}
+                    isLoaded={isLoaded}
+                  >
+                    {article.stock}
+                  </Skeleton>
                 </Badge>
               </Stack>
               <Stack
