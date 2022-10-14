@@ -157,7 +157,7 @@ function Article() {
               lg: 8,
             }}
           >
-            <Skeleton borderRadius={6} isLoaded={isLoaded}>
+            <Skeleton as="span" borderRadius={6} isLoaded={isLoaded}>
               {article.title}
             </Skeleton>
           </Text>
@@ -173,11 +173,17 @@ function Article() {
             variant={"solid"}
             fontSize="14px"
           >
-            <Skeleton m="auto" w="80px" borderRadius={6} isLoaded={isLoaded}>
+            <Skeleton
+              as="span"
+              m="auto"
+              w="80px"
+              borderRadius={6}
+              isLoaded={isLoaded}
+            >
               {article.tag}
             </Skeleton>
           </Badge>
-          <Skeleton my={5} borderRadius={6} isLoaded={isLoaded}>
+          <Skeleton as="span" my={5} borderRadius={6} isLoaded={isLoaded}>
             <Text
               fontWeight={700}
               letterSpacing={"0.24px"}
@@ -205,6 +211,7 @@ function Article() {
             >
               <b>SKU: </b>
               <Skeleton
+                as="span"
                 display="inline-block"
                 borderRadius={6}
                 isLoaded={isLoaded}
@@ -213,7 +220,6 @@ function Article() {
               </Skeleton>
             </Text>
             <Text
-              pl={3}
               as="p"
               fontSize="18px"
               fontWeight={400}
@@ -229,6 +235,7 @@ function Article() {
               }}
             >
               <Skeleton
+                as="span"
                 display="inline-block"
                 borderRadius={6}
                 isLoaded={isLoaded}
