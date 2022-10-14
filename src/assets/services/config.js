@@ -1,4 +1,4 @@
-const domain = "https://oyster-app-te4xn.ondigitalocean.app";
+const domain = import.meta.env.VITE_DOMAIN;
 
 const config = {
   //domain general
